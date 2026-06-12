@@ -37,6 +37,10 @@ const SUGGESTION_LEVELS = {
     { en: "Let's take a walk.",         ko: "산책하자.",             emoji: "🚶" },
     { en: "Let's bake bread.",          ko: "빵 굽자.",              emoji: "🍞" },
     { en: "Let's play table tennis.",   ko: "탁구 치자.",            emoji: "🏓" },
+    { en: "Let's take photos.",            ko: "사진 찍자.",            emoji: "📸" },
+    { en: "Let's go to a board game cafe.",ko: "보드게임 카페에 가자.", emoji: "🃏" },
+    { en: "Let's eat tanghulu.",           ko: "탕후루 먹자.",          emoji: "🍡" },
+    { en: "Let's go to an escape room.",   ko: "방탈출 카페에 가자.",   emoji: "🔓" },
   ],
 
   intermediate: [
@@ -65,6 +69,10 @@ const SUGGESTION_LEVELS = {
     { en: "Let's take a walk after lunch.",        ko: "점심 먹고 산책하자.",            emoji: "🚶" },
     { en: "Let's bake some fresh bread.",          ko: "갓 구운 빵 좀 굽자.",            emoji: "🍞" },
     { en: "Let's play table tennis after class.",  ko: "수업 끝나고 탁구 치자.",         emoji: "🏓" },
+    { en: "Let's take photos at the photo booth.",   ko: "인생네컷 찍으러 가자.",        emoji: "📸" },
+    { en: "Let's play games at the board game cafe.",ko: "보드게임 카페에서 게임 하자.", emoji: "🃏" },
+    { en: "Let's eat sweet tanghulu together.",      ko: "같이 달콤한 탕후루 먹자.",     emoji: "🍡" },
+    { en: "Let's solve puzzles at the escape room.", ko: "방탈출에서 퍼즐 풀자.",        emoji: "🔓" },
   ],
 
   advanced: [
@@ -93,6 +101,10 @@ const SUGGESTION_LEVELS = {
     { en: "Let's take a peaceful walk along the beach.",           ko: "해변을 따라 한가로이 산책하자.",               emoji: "🚶" },
     { en: "Let's bake warm fresh bread in the morning.",           ko: "아침에 따뜻한 갓 구운 빵 굽자.",               emoji: "🍞" },
     { en: "Let's play table tennis at the club today.",            ko: "오늘 클럽에서 탁구 치자.",                     emoji: "🏓" },
+    { en: "Let's take fun photos at the photo booth together.",    ko: "같이 인생네컷 재미있게 찍자.",                 emoji: "📸" },
+    { en: "Let's hang out at the board game cafe this weekend.",   ko: "이번 주말에 보드게임 카페에서 놀자.",          emoji: "🃏" },
+    { en: "Let's eat delicious tanghulu after school.",            ko: "방과 후에 맛있는 탕후루 먹자.",                emoji: "🍡" },
+    { en: "Let's try an exciting escape room with our friends.",   ko: "친구들이랑 신나는 방탈출 해보자.",             emoji: "🔓" },
   ],
 };
 
@@ -106,7 +118,7 @@ const CATEGORY_LIST = [
   { id: "sports",  label: "⚽ 운동·스포츠" },
   { id: "indoor",  label: "🎮 실내 놀이" },
   { id: "food",    label: "🍪 먹거리" },
-  { id: "outdoor", label: "🌳 야외 나들이" },
+  { id: "outdoor", label: "🌳 나들이·카페" },
 ];
 
 const SUGGESTION_CATEGORIES = [
@@ -135,30 +147,26 @@ const SUGGESTION_CATEGORIES = [
   "outdoor", // 22 walk
   "food",    // 23 bread
   "sports",  // 24 table tennis
+  "outdoor", // 25 photo booth (인생네컷)
+  "outdoor", // 26 board game cafe
+  "food",    // 27 tanghulu (탕후루)
+  "outdoor", // 28 escape room (방탈출)
 ];
 
 // 긍정적으로 대답하는 문장
 const POSITIVE_RESPONSES = [
-  { en: "Sounds good.",       ko: "좋아.",            emoji: "😄" },
-  { en: "Sure!",              ko: "물론이지!",        emoji: "👍" },
-  { en: "That sounds fun!",   ko: "재미있겠다!",      emoji: "🤩" },
-  { en: "Okay, let's go!",    ko: "좋아, 가자!",      emoji: "🙌" },
-  { en: "Great idea!",        ko: "좋은 생각이야!",   emoji: "👏" },
-  { en: "Of course!",         ko: "당연하지!",        emoji: "😎" },
-  { en: "Yes, I'd love to.",  ko: "응, 정말 하고 싶어.", emoji: "😍" },
-  { en: "That sounds great!", ko: "정말 좋겠다!",     emoji: "🤗" },
+  { en: "Sounds good.",     ko: "좋아.",       emoji: "😄" },
+  { en: "Sure!",            ko: "물론이지!",   emoji: "👍" },
+  { en: "That sounds fun!", ko: "재미있겠다!", emoji: "🤩" },
+  { en: "Okay, let's go!",  ko: "좋아, 가자!", emoji: "🙌" },
 ];
 
 // 거절하는 문장
 const REFUSAL_RESPONSES = [
-  { en: "Sorry, but I'm busy.",          ko: "미안하지만, 나는 바빠.",   emoji: "😅" },
-  { en: "Sorry, but I'm tired.",         ko: "미안하지만, 나는 피곤해.", emoji: "😴" },
-  { en: "Sorry, maybe next time.",       ko: "미안, 다음에 하자.",       emoji: "🙏" },
-  { en: "Sorry, I can't right now.",     ko: "미안, 지금은 안 돼.",      emoji: "😣" },
-  { en: "Sorry, I'm not feeling well.",  ko: "미안, 나 몸이 안 좋아.",   emoji: "🤒" },
-  { en: "Sorry, I have other plans.",    ko: "미안, 다른 약속이 있어.",  emoji: "📅" },
-  { en: "Sorry, I have to study.",       ko: "미안, 나 공부해야 해.",    emoji: "📖" },
-  { en: "Sorry, maybe another day.",     ko: "미안, 다른 날에 하자.",    emoji: "🗓️" },
+  { en: "Sorry, but I'm busy.",      ko: "미안하지만, 나는 바빠.",   emoji: "😅" },
+  { en: "Sorry, but I'm tired.",     ko: "미안하지만, 나는 피곤해.", emoji: "😴" },
+  { en: "Sorry, maybe next time.",   ko: "미안, 다음에 하자.",       emoji: "🙏" },
+  { en: "Sorry, I can't right now.", ko: "미안, 지금은 안 돼.",      emoji: "😣" },
 ];
 
 /*
@@ -174,10 +182,10 @@ const WORD_MEANINGS = {
   "books": "책들", "soccer": "축구", "basketball": "농구", "ride": "타다",
   "bikes": "자전거들", "eat": "먹다", "pizza": "피자", "make": "만들다",
   "cookies": "쿠키", "badminton": "배드민턴", "park": "공원", "computer": "컴퓨터",
-  "games": "게임들", "draw": "그리다", "pictures": "그림들", "sing": "노래하다",
+  "games": "게임들", "draw": "그리다", "pictures": "그림들", "picture": "그림", "sing": "노래하다",
   "song": "노래", "dance": "춤추다", "together": "함께", "zoo": "동물원",
   "fly": "날리다, 날다", "kite": "연", "hide-and-seek": "숨바꼭질", "camping": "캠핑",
-  "snowman": "눈사람", "take": "하다, 가지다 (take a walk: 산책하다)", "walk": "걷기, 산책",
+  "snowman": "눈사람", "take": "하다, 찍다 (take a walk: 산책하다 / take photos: 사진 찍다)", "walk": "걷기, 산책",
   "bake": "(빵을) 굽다", "bread": "빵", "table": "탁자 (table tennis: 탁구)", "tennis": "테니스",
 
   // 중급/고급 추가 단어
@@ -219,6 +227,13 @@ const WORD_MEANINGS = {
   "not": "~아니다, ~않다", "feeling": "느끼는, 기분", "well": "잘, 건강한 (feeling well: 컨디션이 좋은)",
   "have": "가지다, 있다 (have to: ~해야 한다)", "other": "다른", "plans": "계획, 약속",
   "study": "공부하다", "another": "또 다른", "day": "날, 하루",
+
+  // 요즘 인기 활동 단어
+  "at": "~에서, ~에", "photos": "사진들", "photo": "사진",
+  "booth": "부스 (photo booth: 인생네컷 부스)", "cafe": "카페", "hang": "(hang out: 어울려 놀다)",
+  "out": "밖으로 (hang out: 놀다)", "solve": "풀다, 해결하다", "puzzles": "퍼즐들",
+  "try": "해보다, 시도하다", "tanghulu": "탕후루 (과일 사탕 꼬치)",
+  "escape": "탈출 (escape room: 방탈출)", "room": "방",
 };
 
 // 단어를 사전 key 형태로 정규화 (양 끝 문장부호 제거, 내부 -/' 유지)
