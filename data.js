@@ -96,20 +96,69 @@ const SUGGESTION_LEVELS = {
   ],
 };
 
-// 긍정적으로 대답하는 문장 (교과서 Sounds good. + 추가 3개)
-const POSITIVE_RESPONSES = [
-  { en: "Sounds good.",     ko: "좋아.",       emoji: "😄" },
-  { en: "Sure!",            ko: "물론이지!",   emoji: "👍" },
-  { en: "That sounds fun!", ko: "재미있겠다!", emoji: "🤩" },
-  { en: "Okay, let's go!",  ko: "좋아, 가자!", emoji: "🙌" },
+/*
+ * 활동 종류 분류
+ * - CATEGORY_LIST: 필터 버튼 목록
+ * - SUGGESTION_CATEGORIES: 각 문장(인덱스 순서)이 속한 종류 (세 난이도 모두 같은 순서)
+ */
+const CATEGORY_LIST = [
+  { id: "all",     label: "전체" },
+  { id: "sports",  label: "⚽ 운동·스포츠" },
+  { id: "indoor",  label: "🎮 실내 놀이" },
+  { id: "food",    label: "🍪 먹거리" },
+  { id: "outdoor", label: "🌳 야외 나들이" },
 ];
 
-// 거절하는 문장 (교과서 Sorry, but I'm busy. + 추가 3개)
+const SUGGESTION_CATEGORIES = [
+  "sports",  // 0  swimming
+  "indoor",  // 1  movies
+  "indoor",  // 2  board game
+  "indoor",  // 3  homework
+  "outdoor", // 4  shopping
+  "indoor",  // 5  comic books
+  "sports",  // 6  soccer
+  "sports",  // 7  basketball
+  "sports",  // 8  bikes
+  "food",    // 9  pizza
+  "food",    // 10 cookies
+  "sports",  // 11 badminton
+  "outdoor", // 12 park
+  "indoor",  // 13 computer games
+  "indoor",  // 14 draw pictures
+  "indoor",  // 15 sing a song
+  "indoor",  // 16 dance
+  "outdoor", // 17 zoo
+  "outdoor", // 18 kite
+  "outdoor", // 19 hide-and-seek
+  "outdoor", // 20 camping
+  "outdoor", // 21 snowman
+  "outdoor", // 22 walk
+  "food",    // 23 bread
+  "sports",  // 24 table tennis
+];
+
+// 긍정적으로 대답하는 문장
+const POSITIVE_RESPONSES = [
+  { en: "Sounds good.",       ko: "좋아.",            emoji: "😄" },
+  { en: "Sure!",              ko: "물론이지!",        emoji: "👍" },
+  { en: "That sounds fun!",   ko: "재미있겠다!",      emoji: "🤩" },
+  { en: "Okay, let's go!",    ko: "좋아, 가자!",      emoji: "🙌" },
+  { en: "Great idea!",        ko: "좋은 생각이야!",   emoji: "👏" },
+  { en: "Of course!",         ko: "당연하지!",        emoji: "😎" },
+  { en: "Yes, I'd love to.",  ko: "응, 정말 하고 싶어.", emoji: "😍" },
+  { en: "That sounds great!", ko: "정말 좋겠다!",     emoji: "🤗" },
+];
+
+// 거절하는 문장
 const REFUSAL_RESPONSES = [
-  { en: "Sorry, but I'm busy.",      ko: "미안하지만, 나는 바빠.",   emoji: "😅" },
-  { en: "Sorry, but I'm tired.",     ko: "미안하지만, 나는 피곤해.", emoji: "😴" },
-  { en: "Sorry, maybe next time.",   ko: "미안, 다음에 하자.",       emoji: "🙏" },
-  { en: "Sorry, I can't right now.", ko: "미안, 지금은 안 돼.",      emoji: "😣" },
+  { en: "Sorry, but I'm busy.",          ko: "미안하지만, 나는 바빠.",   emoji: "😅" },
+  { en: "Sorry, but I'm tired.",         ko: "미안하지만, 나는 피곤해.", emoji: "😴" },
+  { en: "Sorry, maybe next time.",       ko: "미안, 다음에 하자.",       emoji: "🙏" },
+  { en: "Sorry, I can't right now.",     ko: "미안, 지금은 안 돼.",      emoji: "😣" },
+  { en: "Sorry, I'm not feeling well.",  ko: "미안, 나 몸이 안 좋아.",   emoji: "🤒" },
+  { en: "Sorry, I have other plans.",    ko: "미안, 다른 약속이 있어.",  emoji: "📅" },
+  { en: "Sorry, I have to study.",       ko: "미안, 나 공부해야 해.",    emoji: "📖" },
+  { en: "Sorry, maybe another day.",     ko: "미안, 다른 날에 하자.",    emoji: "🗓️" },
 ];
 
 /*
@@ -165,6 +214,11 @@ const WORD_MEANINGS = {
   "i'm": "나는 ~이다 (I am)", "busy": "바쁜", "tired": "피곤한", "maybe": "아마, 어쩌면",
   "next": "다음의", "time": "시간, 번 (next time: 다음에)", "i": "나",
   "can't": "할 수 없다 (cannot)", "right": "바로 (right now: 지금 당장)", "now": "지금",
+  "great": "멋진, 훌륭한", "idea": "생각, 아이디어", "course": "(of course: 당연하지)",
+  "yes": "응, 그래", "i'd": "나는 ~하고 싶다 (I would)", "love": "무척 좋아하다, 정말 ~하고 싶다",
+  "not": "~아니다, ~않다", "feeling": "느끼는, 기분", "well": "잘, 건강한 (feeling well: 컨디션이 좋은)",
+  "have": "가지다, 있다 (have to: ~해야 한다)", "other": "다른", "plans": "계획, 약속",
+  "study": "공부하다", "another": "또 다른", "day": "날, 하루",
 };
 
 // 단어를 사전 key 형태로 정규화 (양 끝 문장부호 제거, 내부 -/' 유지)

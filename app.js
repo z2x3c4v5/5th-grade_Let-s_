@@ -159,12 +159,16 @@ function renderGrid(id, list, opts) {
   });
 }
 
-/* ---------- 난이도(초급/중급/고급) ---------- */
+/* ---------- 난이도(초급/중급/고급) + 활동 종류 ---------- */
 let currentLevel = "beginner";
+let currentCategory = "all";
 function currentSuggestions() { return SUGGESTION_LEVELS[currentLevel]; }
 
 function renderSuggestions() {
-  renderGrid("suggestion-grid", currentSuggestions(), { tones: true });
+  const filtered = currentSuggestions().filter(
+    (_, i) => currentCategory === "all" || SUGGESTION_CATEGORIES[i] === currentCategory
+  );
+  renderGrid("suggestion-grid", filtered, { tones: true });
 }
 
 document.querySelectorAll(".level-btn").forEach(btn => {
@@ -172,6 +176,17 @@ document.querySelectorAll(".level-btn").forEach(btn => {
     document.querySelectorAll(".level-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     currentLevel = btn.dataset.level;
+    synth.cancel();
+    hidePopup();
+    renderSuggestions();
+  });
+});
+
+document.querySelectorAll(".cat-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentCategory = btn.dataset.cat;
     synth.cancel();
     hidePopup();
     renderSuggestions();

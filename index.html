@@ -29,7 +29,14 @@
           <button class="level-btn" data-level="intermediate">중급</button>
           <button class="level-btn" data-level="advanced">고급</button>
         </div>
-        <p class="hint">난이도를 고르고, 단어를 누르면 뜻과 발음을 알 수 있어요.</p>
+        <div class="cat-switch">
+          <button class="cat-btn active" data-cat="all">전체</button>
+          <button class="cat-btn" data-cat="sports">⚽ 운동·스포츠</button>
+          <button class="cat-btn" data-cat="indoor">🎮 실내 놀이</button>
+          <button class="cat-btn" data-cat="food">🍪 먹거리</button>
+          <button class="cat-btn" data-cat="outdoor">🌳 야외 나들이</button>
+        </div>
+        <p class="hint">난이도와 활동 종류를 고르고, 단어를 누르면 뜻과 발음을 알 수 있어요.</p>
         <div id="suggestion-grid" class="card-grid five"></div>
       </div>
     </section>
@@ -37,7 +44,7 @@
     <!-- ===== 긍정 대답 ===== -->
     <section id="tab-positive" class="tab-panel">
       <div class="section-block">
-        <h2>좋아요! 긍정 대답 <span class="count pos">4개</span></h2>
+        <h2>좋아요! 긍정 대답 <span class="count pos">8개</span></h2>
         <p class="hint">권유에 기분 좋게 대답하는 표현이에요.</p>
         <div id="positive-grid" class="card-grid answers"></div>
       </div>
@@ -46,7 +53,7 @@
     <!-- ===== 부정 대답 ===== -->
     <section id="tab-negative" class="tab-panel">
       <div class="section-block">
-        <h2>미안해! 거절 대답 <span class="count neg">4개</span></h2>
+        <h2>미안해! 거절 대답 <span class="count neg">8개</span></h2>
         <p class="hint">권유를 정중하게 거절하는 표현이에요.</p>
         <div id="refusal-grid" class="card-grid answers"></div>
       </div>
