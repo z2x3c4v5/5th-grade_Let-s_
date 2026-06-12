@@ -47,6 +47,15 @@ body {
   max-width: 900px; margin: 14px auto 0; padding: 0 16px;
   display: flex; align-items: center; justify-content: flex-end; gap: 14px; flex-wrap: wrap;
 }
+.img-toggle {
+  margin-right: auto; /* 왼쪽으로 */
+  border: none; cursor: pointer; border-radius: 999px;
+  padding: 9px 18px; font-weight: 700; font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.8); color: var(--primary-dark);
+  box-shadow: var(--shadow-sm); transition: transform 0.1s, background 0.2s, color 0.2s;
+}
+.img-toggle.on { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; }
+.img-toggle:active { transform: scale(0.95); }
 
 /* ===== Tabs ===== */
 .tabs {
@@ -163,6 +172,10 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
 .listen-all:active { transform: scale(0.94); }
 
 .card .emoji { font-size: 3.4rem; line-height: 1; text-align: center; margin: 4px 0 14px; }
+.card .photo {
+  display: block; width: 100%; height: 150px; object-fit: cover;
+  border-radius: 16px; margin: 4px 0 14px; background: rgba(255,255,255,0.5);
+}
 
 /* 안쪽 문장 박스 */
 .sentence-box {

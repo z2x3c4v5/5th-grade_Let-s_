@@ -181,6 +181,49 @@ const SUGGESTION_CATEGORIES = [
   "food",    // 35 bubble tea
 ];
 
+/*
+ * 활동별 실사 이미지 키워드 (인덱스 순서, 세 난이도 공통)
+ * 브라우저에서 이미지 생성 서비스로 실사풍 그림을 불러올 때 사용합니다.
+ */
+const IMAGE_PROMPTS = [
+  "children swimming in a pool",          // 0  swimming
+  "movie theater with a big screen",      // 1  movies
+  "children playing a board game",        // 2  board game
+  "a child doing homework at a desk",     // 3  homework
+  "a shopping mall",                      // 4  shopping
+  "a stack of comic books",               // 5  comic books
+  "children playing soccer",              // 6  soccer
+  "children playing basketball",          // 7  basketball
+  "a child riding a bicycle",             // 8  bikes
+  "a delicious pizza",                    // 9  pizza
+  "freshly baked cookies",                // 10 cookies
+  "children playing badminton",           // 11 badminton
+  "a green city park",                    // 12 park
+  "a child playing a computer game",      // 13 computer games
+  "a child drawing a picture",            // 14 draw pictures
+  "a child singing with a microphone",    // 15 sing a song
+  "children dancing happily",             // 16 dance
+  "zoo animals like a lion and giraffe",  // 17 zoo
+  "a child flying a colorful kite",       // 18 kite
+  "children playing hide and seek",       // 19 hide-and-seek
+  "a camping tent in nature",             // 20 camping
+  "a cute snowman in the snow",           // 21 snowman
+  "a child taking a walk on a path",      // 22 walk
+  "a loaf of fresh bread",                // 23 bread
+  "playing table tennis ping pong",       // 24 table tennis
+  "a cute photo booth (인생네컷)",          // 25 photo booth
+  "a board game cafe",                    // 26 board game cafe
+  "tanghulu candied fruit skewers",       // 27 tanghulu
+  "an escape room with puzzles",          // 28 escape room
+  "children playing baseball",            // 29 baseball
+  "an indoor rock climbing wall",         // 30 climbing
+  "crispy fried chicken",                 // 31 chicken
+  "korean spicy tteokbokki rice cakes",   // 32 tteokbokki
+  "an ice cream cone",                    // 33 ice cream
+  "a tasty hamburger",                    // 34 hamburgers
+  "a cup of bubble tea",                  // 35 bubble tea
+];
+
 // 긍정적으로 대답하는 문장 (short: 받아쓰기용 짧은 답)
 const POSITIVE_RESPONSES = [
   { en: "Sounds good.",     ko: "좋아.",       emoji: "😄", short: "Good!" },
