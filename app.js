@@ -243,19 +243,6 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   });
 });
 
-/* ---------- 사진 / 이모지 토글 ---------- */
-const imgToggle = document.getElementById("img-toggle");
-function updateImgToggle() {
-  imgToggle.textContent = imageMode ? "😀 이모지 보기" : "🖼️ 사진 보기";
-  imgToggle.classList.toggle("on", imageMode);
-}
-updateImgToggle();
-imgToggle.addEventListener("click", () => {
-  imageMode = !imageMode;
-  updateImgToggle();
-  renderSuggestions();
-});
-
 /* ---------- 속도 조절 ---------- */
 document.getElementById("rate").addEventListener("input", e => {
   speakRate = parseFloat(e.target.value);

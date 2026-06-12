@@ -47,15 +47,6 @@ body {
   max-width: 900px; margin: 14px auto 0; padding: 0 16px;
   display: flex; align-items: center; justify-content: flex-end; gap: 14px; flex-wrap: wrap;
 }
-.img-toggle {
-  margin-right: auto; /* 왼쪽으로 */
-  border: none; cursor: pointer; border-radius: 999px;
-  padding: 9px 18px; font-weight: 700; font-size: 0.9rem;
-  background: rgba(255, 255, 255, 0.8); color: var(--primary-dark);
-  box-shadow: var(--shadow-sm); transition: transform 0.1s, background 0.2s, color 0.2s;
-}
-.img-toggle.on { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; }
-.img-toggle:active { transform: scale(0.95); }
 
 /* ===== Tabs ===== */
 .tabs {
