@@ -93,40 +93,70 @@ function buildWords(sentence) {
 }
 
 /* ---------- 카드 만들기 ---------- */
-function makeCard(item, extraClass) {
+function makeCard(item, opts) {
+  opts = opts || {};
   const div = document.createElement("div");
-  div.className = "card" + (extraClass ? " " + extraClass : "");
+  div.className = "card"
+    + (opts.extraClass ? " " + opts.extraClass : "")
+    + (opts.tone != null ? " tone-" + opts.tone : "");
 
+  function speakSentence() {
+    speak(item.en, null,
+      () => div.classList.add("speaking"),
+      () => div.classList.remove("speaking"));
+  }
+
+  // 윗줄: 태그 + 듣기
+  const top = document.createElement("div");
+  top.className = "card-top";
+  const tag = document.createElement("span");
+  tag.className = "card-tag";
+  if (opts.index != null) tag.textContent = "CARD " + opts.index;
+  else if (opts.extraClass === "pos") tag.textContent = "GOOD";
+  else if (opts.extraClass === "neg") tag.textContent = "SORRY";
+  const listenAll = document.createElement("button");
+  listenAll.className = "listen-all";
+  listenAll.textContent = "듣기 ▶";
+  listenAll.addEventListener("click", e => { e.stopPropagation(); speakSentence(); });
+  top.append(tag, listenAll);
+
+  // 이모지
   const emoji = document.createElement("div");
   emoji.className = "emoji";
   emoji.textContent = item.emoji;
 
+  // 안쪽 문장 박스: 문장 + 한글 + 스피커
+  const box = document.createElement("div");
+  box.className = "sentence-box";
+  const txt = document.createElement("div");
+  txt.className = "sentence-text";
   const en = document.createElement("div");
   en.className = "en";
   en.appendChild(buildWords(item.en));
-
   const ko = document.createElement("div");
   ko.className = "ko";
   ko.textContent = item.ko;
+  txt.append(en, ko);
+  const speakBtn = document.createElement("button");
+  speakBtn.className = "speak-btn";
+  speakBtn.setAttribute("aria-label", "문장 듣기");
+  speakBtn.textContent = "🔊";
+  speakBtn.addEventListener("click", e => { e.stopPropagation(); speakSentence(); });
+  box.append(txt, speakBtn);
 
-  const listen = document.createElement("button");
-  listen.className = "listen-btn";
-  listen.textContent = "문장 듣기";
-  listen.addEventListener("click", e => {
-    e.stopPropagation();
-    speak(item.en, null,
-      () => div.classList.add("speaking"),
-      () => div.classList.remove("speaking"));
-  });
-
-  div.append(emoji, en, ko, listen);
+  div.append(top, emoji, box);
   return div;
 }
 
-function renderGrid(id, list, extraClass) {
+function renderGrid(id, list, opts) {
+  opts = opts || {};
   const grid = document.getElementById(id);
   grid.innerHTML = "";
-  list.forEach(item => grid.appendChild(makeCard(item, extraClass)));
+  list.forEach((item, i) => {
+    const cardOpts = { extraClass: opts.extraClass || "" };
+    if (opts.tones) { cardOpts.tone = i % 6; cardOpts.index = i + 1; }
+    grid.appendChild(makeCard(item, cardOpts));
+  });
 }
 
 /* ---------- 난이도(초급/중급/고급) ---------- */
@@ -134,7 +164,7 @@ let currentLevel = "beginner";
 function currentSuggestions() { return SUGGESTION_LEVELS[currentLevel]; }
 
 function renderSuggestions() {
-  renderGrid("suggestion-grid", currentSuggestions());
+  renderGrid("suggestion-grid", currentSuggestions(), { tones: true });
 }
 
 document.querySelectorAll(".level-btn").forEach(btn => {
@@ -149,8 +179,8 @@ document.querySelectorAll(".level-btn").forEach(btn => {
 });
 
 renderSuggestions();
-renderGrid("positive-grid", POSITIVE_RESPONSES, "pos");
-renderGrid("refusal-grid", REFUSAL_RESPONSES, "neg");
+renderGrid("positive-grid", POSITIVE_RESPONSES, { extraClass: "pos" });
+renderGrid("refusal-grid", REFUSAL_RESPONSES, { extraClass: "neg" });
 
 /* ---------- 탭 전환 ---------- */
 document.querySelectorAll(".tab-btn").forEach(btn => {

@@ -114,25 +114,64 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
 .card {
   position: relative;
   background: var(--card);
-  backdrop-filter: blur(8px);
-  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
   border-radius: 24px;
-  padding: 28px 24px 24px;
-  text-align: center;
+  padding: 18px 20px 22px;
   box-shadow: var(--shadow-sm);
   transition: transform 0.15s, box-shadow 0.2s;
 }
 .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
 .card.speaking { box-shadow: 0 0 0 3px var(--ring), var(--shadow); }
 
-.card .emoji { font-size: 3.6rem; line-height: 1; margin-bottom: 12px; }
-.card .en { font-weight: 700; font-size: 1.5rem; line-height: 1.5; }
-.card .ko { color: var(--muted); font-size: 1.15rem; margin-top: 10px; }
-.card .listen-btn { margin-top: 16px; }
+/* 윗줄: CARD 태그 + 듣기 */
+.card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.card-tag {
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px;
+  color: #fff; background: rgba(99, 102, 241, 0.55);
+  padding: 4px 11px; border-radius: 999px;
+}
+.card-tag:empty { display: none; }
+.listen-all {
+  border: none; cursor: pointer; background: transparent;
+  color: var(--primary-dark); font-weight: 800; font-size: 0.82rem;
+  padding: 4px 6px; border-radius: 10px; transition: background 0.15s;
+}
+.listen-all:hover { background: rgba(99, 102, 241, 0.12); }
+.listen-all:active { transform: scale(0.94); }
+
+.card .emoji { font-size: 3.4rem; line-height: 1; text-align: center; margin: 4px 0 14px; }
+
+/* 안쪽 문장 박스 */
+.sentence-box {
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 18px; padding: 16px 16px;
+  text-align: left;
+}
+.sentence-text { flex: 1; }
+.card .en { font-weight: 700; font-size: 1.32rem; line-height: 1.45; color: #222; }
+.card .ko { color: var(--muted); font-size: 1.02rem; margin-top: 6px; font-style: italic; }
+
+.speak-btn {
+  flex-shrink: 0; width: 46px; height: 46px; border: none; cursor: pointer;
+  border-radius: 50%; font-size: 1.25rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  box-shadow: var(--shadow-sm); transition: transform 0.1s, filter 0.2s;
+}
+.speak-btn:hover { filter: brightness(1.08); }
+.speak-btn:active { transform: scale(0.9); }
 
 /* 대답 카드(2x2)는 살짝 작게 */
-.card-grid.resp .card .emoji { font-size: 2.8rem; }
-.card-grid.resp .card .en { font-size: 1.3rem; }
+.card-grid.resp .card .emoji { font-size: 2.7rem; }
+.card-grid.resp .card .en { font-size: 1.2rem; }
+
+/* ===== 카드 파스텔 색 (참고와 살짝 다른 톤) ===== */
+.card.tone-0 { background: #e3f7ee; border-color: #c4ecdb; }
+.card.tone-1 { background: #e6effd; border-color: #cfe0fb; }
+.card.tone-2 { background: #fff1e6; border-color: #ffdfc7; }
+.card.tone-3 { background: #f1ebfe; border-color: #e0d4fb; }
+.card.tone-4 { background: #fdf7e1; border-color: #f6ecbf; }
+.card.tone-5 { background: #ffe9f1; border-color: #ffd2e2; }
 
 /* 화면이 좁아지면 열 수를 줄여 글자 크기 유지 */
 @media (max-width: 900px) {
@@ -143,8 +182,10 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
   .card-grid.five, .card-grid.resp { grid-template-columns: 1fr; }
 }
 
-.card.pos { border-color: rgba(16, 185, 129, 0.35); }
-.card.neg { border-color: rgba(244, 63, 94, 0.35); }
+.card.pos { background: #e7f8f0; border-color: rgba(16, 185, 129, 0.4); }
+.card.neg { background: #fdeef0; border-color: rgba(244, 63, 94, 0.4); }
+.card.pos .card-tag { background: rgba(16, 185, 129, 0.7); }
+.card.neg .card-tag { background: rgba(244, 63, 94, 0.7); }
 
 /* 클릭 가능한 단어 */
 .word {
@@ -156,18 +197,6 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
 }
 .word:hover { background: rgba(99, 102, 241, 0.14); }
 .word:active { background: var(--primary); color: #fff; }
-
-/* 문장 듣기 버튼 */
-.listen-btn {
-  margin-top: 16px;
-  border: none; cursor: pointer;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: #fff; font-weight: 700; font-size: 1rem;
-  padding: 11px 22px; border-radius: 14px;
-  box-shadow: var(--shadow-sm); transition: transform 0.1s, filter 0.2s;
-}
-.listen-btn:hover { filter: brightness(1.06); }
-.listen-btn:active { transform: scale(0.94); }
 
 /* ===== 단어 뜻 풍선 popup ===== */
 .word-popup {
