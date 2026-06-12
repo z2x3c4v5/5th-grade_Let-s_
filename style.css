@@ -236,7 +236,21 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
 
 /* 연습 탭 - 좌(제안) / 우(대답) 2단 */
 .practice-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
-.pcol-grid { grid-template-columns: 1fr; gap: 16px; }
+.pcol-grid { grid-template-columns: 1fr; gap: 14px; }
+
+/* 연습 카드는 조금 작게 */
+.pcard { padding: 14px 16px 16px; }
+.pcard .photo { height: 108px; margin: 2px 0 10px; }
+.pcard .emoji { font-size: 2.5rem; margin: 2px 0 8px; }
+.pcard .en { font-size: 1.05rem; }
+.pcard .ko { font-size: 0.85rem; margin-top: 4px; }
+.pcard .sentence-box { padding: 12px; gap: 10px; }
+.pcard .speak-btn { width: 40px; height: 40px; font-size: 1.1rem; }
+.pcard .mic-area { margin-top: 12px; }
+.pcard .mic-btn { width: 54px; height: 54px; font-size: 1.45rem; }
+.pcard .mic-label { font-size: 0.82rem; margin-top: 8px; }
+.pcard .pstats { font-size: 0.85rem; padding: 7px 8px; margin-top: 10px; }
+.pcard .mic-feedback { font-size: 0.9rem; }
 .pcol-title {
   font-size: 1.1rem; margin: 2px 0 12px; padding: 10px 14px; border-radius: 14px;
   background: rgba(255, 255, 255, 0.7); text-align: center;
