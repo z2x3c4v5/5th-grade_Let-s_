@@ -173,13 +173,13 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
 .card.tone-4 { background: #fdf7e1; border-color: #f6ecbf; }
 .card.tone-5 { background: #ffe9f1; border-color: #ffd2e2; }
 
-/* 화면이 좁아지면 열 수를 줄여 글자 크기 유지 */
+/* 화면이 좁아지면 권유 문장 열 수만 줄임 (긍정/거절은 항상 가로 유지) */
 @media (max-width: 900px) {
   .card-grid.five { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .responses-row { grid-template-columns: 1fr; gap: 0; }
 }
 @media (max-width: 560px) {
-  .card-grid.five, .card-grid.resp { grid-template-columns: 1fr; }
+  .card-grid.five { grid-template-columns: 1fr; }
+  .card-grid.resp { grid-template-columns: 1fr; }
 }
 
 .card.pos { background: #e7f8f0; border-color: rgba(16, 185, 129, 0.4); }
