@@ -234,6 +234,17 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
 }
 .tab-btn.active .tab-count { background: rgba(255, 255, 255, 0.3); }
 
+/* 연습 탭 - 좌(제안) / 우(대답) 2단 */
+.practice-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
+.pcol-grid { grid-template-columns: 1fr; gap: 16px; }
+.pcol-title {
+  font-size: 1.1rem; margin: 2px 0 12px; padding: 10px 14px; border-radius: 14px;
+  background: rgba(255, 255, 255, 0.7); text-align: center;
+}
+.pcol:first-child .pcol-title { color: var(--primary-dark); border: 2px solid rgba(99,102,241,0.25); }
+.pcol:last-child .pcol-title { color: var(--accent); border: 2px solid rgba(236,72,153,0.25); }
+@media (max-width: 760px) { .practice-cols { grid-template-columns: 1fr; } }
+
 /* 연습 탭 */
 .practice-empty {
   text-align: center; color: var(--muted); font-size: 1rem;

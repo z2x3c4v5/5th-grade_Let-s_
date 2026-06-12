@@ -183,7 +183,7 @@ function makeCard(item, opts) {
     sel.textContent = on ? "✓ 연습 목록에 있음" : "⭐ 연습 목록에 추가";
     sel.addEventListener("click", e => {
       e.stopPropagation();
-      toggleSelect(item);
+      toggleSelect(item, opts.selectType || "suggest");
     });
     div.append(sel);
   }
@@ -197,7 +197,7 @@ function renderGrid(id, list, opts) {
   list.forEach((item, i) => {
     const cardOpts = { extraClass: opts.extraClass || "" };
     if (opts.tones) { cardOpts.tone = i % 6; cardOpts.index = i + 1; }
-    if (opts.selectable) cardOpts.selectable = true;
+    if (opts.selectable) { cardOpts.selectable = true; cardOpts.selectType = opts.selectType; }
     grid.appendChild(makeCard(item, cardOpts));
   });
 }
@@ -258,12 +258,17 @@ function persist() {
   } catch (e) {}
 }
 function isSelected(en) { return selected.has(en); }
-function toggleSelect(item) {
+function renderResponses() {
+  renderGrid("positive-grid", POSITIVE_RESPONSES, { extraClass: "pos", selectable: true, selectType: "pos" });
+  renderGrid("refusal-grid", REFUSAL_RESPONSES, { extraClass: "neg", selectable: true, selectType: "neg" });
+}
+function toggleSelect(item, type) {
   if (selected.has(item.en)) selected.delete(item.en);
-  else selected.set(item.en, { en: item.en, ko: item.ko, emoji: item.emoji, imgPrompt: item.imgPrompt });
+  else selected.set(item.en, { en: item.en, ko: item.ko, emoji: item.emoji, imgPrompt: item.imgPrompt, type: type || "suggest" });
   persist();
   updatePracticeBadge();
   renderSuggestions();
+  renderResponses();
   if (document.getElementById("tab-practice").classList.contains("active")) renderPractice();
 }
 function updatePracticeBadge() {
@@ -451,19 +456,25 @@ function makePracticeCard(item) {
   return div;
 }
 
-function renderPractice() {
-  const list = document.getElementById("practice-list");
-  const empty = document.getElementById("practice-empty");
-  const items = [...selected.values()];
+function fillCol(listId, emptyId, items) {
+  const list = document.getElementById(listId);
+  const empty = document.getElementById(emptyId);
   if (!items.length) { empty.style.display = "block"; list.innerHTML = ""; return; }
   empty.style.display = "none";
   list.innerHTML = "";
   items.forEach(it => list.appendChild(makePracticeCard(it)));
 }
+function renderPractice() {
+  const items = [...selected.values()];
+  const suggest = items.filter(i => !i.type || i.type === "suggest");
+  const answer = items.filter(i => i.type === "pos" || i.type === "neg");
+  fillCol("practice-suggest", "practice-suggest-empty", suggest);
+  fillCol("practice-answer", "practice-answer-empty", answer);
+  updatePracticeBadge();
+}
 
 renderSuggestions();
-renderGrid("positive-grid", POSITIVE_RESPONSES, { extraClass: "pos" });
-renderGrid("refusal-grid", REFUSAL_RESPONSES, { extraClass: "neg" });
+renderResponses();
 updatePracticeBadge();
 
 /* ---------- 탭 전환 (권유 / 긍정 / 부정) ---------- */
