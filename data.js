@@ -41,6 +41,13 @@ const SUGGESTION_LEVELS = {
     { en: "Let's go to a board game cafe.",ko: "보드게임 카페에 가자.", emoji: "🃏" },
     { en: "Let's eat tanghulu.",           ko: "탕후루 먹자.",          emoji: "🍡" },
     { en: "Let's go to an escape room.",   ko: "방탈출 카페에 가자.",   emoji: "🔓" },
+    { en: "Let's play baseball.",      ko: "야구 하자.",         emoji: "⚾" },
+    { en: "Let's go climbing.",        ko: "클라이밍 하러 가자.", emoji: "🧗" },
+    { en: "Let's eat chicken.",        ko: "치킨 먹자.",         emoji: "🍗" },
+    { en: "Let's eat tteokbokki.",     ko: "떡볶이 먹자.",       emoji: "🍢" },
+    { en: "Let's eat ice cream.",      ko: "아이스크림 먹자.",   emoji: "🍦" },
+    { en: "Let's eat hamburgers.",     ko: "햄버거 먹자.",       emoji: "🍔" },
+    { en: "Let's drink bubble tea.",   ko: "버블티 마시자.",     emoji: "🧋" },
   ],
 
   intermediate: [
@@ -73,6 +80,13 @@ const SUGGESTION_LEVELS = {
     { en: "Let's play games at the board game cafe.",ko: "보드게임 카페에서 게임 하자.", emoji: "🃏" },
     { en: "Let's eat sweet tanghulu together.",      ko: "같이 달콤한 탕후루 먹자.",     emoji: "🍡" },
     { en: "Let's solve puzzles at the escape room.", ko: "방탈출에서 퍼즐 풀자.",        emoji: "🔓" },
+    { en: "Let's play baseball in the park.",       ko: "공원에서 야구 하자.",       emoji: "⚾" },
+    { en: "Let's go climbing at the gym.",          ko: "체육관에서 클라이밍 하자.", emoji: "🧗" },
+    { en: "Let's eat fried chicken tonight.",       ko: "오늘 밤에 치킨 먹자.",      emoji: "🍗" },
+    { en: "Let's eat spicy tteokbokki together.",   ko: "같이 매운 떡볶이 먹자.",    emoji: "🍢" },
+    { en: "Let's eat cold ice cream.",              ko: "시원한 아이스크림 먹자.",   emoji: "🍦" },
+    { en: "Let's eat hamburgers for lunch.",        ko: "점심으로 햄버거 먹자.",     emoji: "🍔" },
+    { en: "Let's drink sweet bubble tea.",          ko: "달콤한 버블티 마시자.",     emoji: "🧋" },
   ],
 
   advanced: [
@@ -105,6 +119,13 @@ const SUGGESTION_LEVELS = {
     { en: "Let's hang out at the board game cafe this weekend.",   ko: "이번 주말에 보드게임 카페에서 놀자.",          emoji: "🃏" },
     { en: "Let's eat delicious tanghulu after school.",            ko: "방과 후에 맛있는 탕후루 먹자.",                emoji: "🍡" },
     { en: "Let's try an exciting escape room with our friends.",   ko: "친구들이랑 신나는 방탈출 해보자.",             emoji: "🔓" },
+    { en: "Let's play baseball at the field this Sunday.",         ko: "이번 일요일에 운동장에서 야구 하자.",          emoji: "⚾" },
+    { en: "Let's try indoor climbing this weekend.",               ko: "이번 주말에 실내 클라이밍 해보자.",            emoji: "🧗" },
+    { en: "Let's order crispy fried chicken for dinner.",          ko: "저녁으로 바삭한 치킨 시키자.",                 emoji: "🍗" },
+    { en: "Let's eat hot tteokbokki after school.",                ko: "방과 후에 뜨거운 떡볶이 먹자.",                emoji: "🍢" },
+    { en: "Let's eat sweet ice cream on a hot day.",               ko: "더운 날 달콤한 아이스크림 먹자.",              emoji: "🍦" },
+    { en: "Let's eat juicy hamburgers with our friends.",          ko: "친구들이랑 육즙 가득한 햄버거 먹자.",          emoji: "🍔" },
+    { en: "Let's drink cold bubble tea after class.",              ko: "수업 끝나고 시원한 버블티 마시자.",            emoji: "🧋" },
   ],
 };
 
@@ -141,16 +162,23 @@ const SUGGESTION_CATEGORIES = [
   "indoor",  // 16 dance
   "outdoor", // 17 zoo
   "outdoor", // 18 kite
-  "outdoor", // 19 hide-and-seek
+  "sports",  // 19 hide-and-seek
   "outdoor", // 20 camping
   "outdoor", // 21 snowman
   "outdoor", // 22 walk
   "food",    // 23 bread
   "sports",  // 24 table tennis
   "outdoor", // 25 photo booth (인생네컷)
-  "outdoor", // 26 board game cafe
+  "indoor",  // 26 board game cafe
   "food",    // 27 tanghulu (탕후루)
   "outdoor", // 28 escape room (방탈출)
+  "sports",  // 29 baseball
+  "sports",  // 30 climbing
+  "food",    // 31 chicken
+  "food",    // 32 tteokbokki
+  "food",    // 33 ice cream
+  "food",    // 34 hamburgers
+  "food",    // 35 bubble tea
 ];
 
 // 긍정적으로 대답하는 문장
@@ -214,6 +242,7 @@ const WORD_MEANINGS = {
   "fresh": "신선한, 갓 만든", "warm": "따뜻한", "morning": "아침", "class": "수업",
   "club": "클럽, 동아리", "today": "오늘", "outdoor": "야외의",
   "quickly": "빨리", "sunny": "화창한", "wild": "야생의", "windy": "바람 부는",
+  "indoor": "실내의",
   "why": "왜 (Why don't we ~: ~하는 게 어때)", "don't": "~하지 않다 (do not)",
 
   // 대답 문장 단어
@@ -234,6 +263,12 @@ const WORD_MEANINGS = {
   "out": "밖으로 (hang out: 놀다)", "solve": "풀다, 해결하다", "puzzles": "퍼즐들",
   "try": "해보다, 시도하다", "tanghulu": "탕후루 (과일 사탕 꼬치)",
   "escape": "탈출 (escape room: 방탈출)", "room": "방",
+  "baseball": "야구", "sunday": "일요일", "climbing": "클라이밍, 암벽 등반",
+  "chicken": "치킨, 닭고기", "fried": "튀긴 (fried chicken: 치킨)", "crispy": "바삭한",
+  "tteokbokki": "떡볶이", "spicy": "매운", "hot": "뜨거운, 더운, 매운",
+  "ice": "얼음 (ice cream: 아이스크림)", "cream": "크림", "cold": "차가운, 시원한",
+  "hamburgers": "햄버거", "juicy": "육즙이 많은", "drink": "마시다",
+  "bubble": "거품, 버블 (bubble tea: 버블티)", "tea": "차",
 };
 
 // 단어를 사전 key 형태로 정규화 (양 끝 문장부호 제거, 내부 -/' 유지)
