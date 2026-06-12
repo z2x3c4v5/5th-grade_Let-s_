@@ -215,6 +215,60 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
 .card.pos .card-tag { background: rgba(16, 185, 129, 0.7); }
 .card.neg .card-tag { background: rgba(244, 63, 94, 0.7); }
 
+/* ⭐ 연습 목록 담기 버튼 */
+.select-btn {
+  width: 100%; margin-top: 12px; border: none; cursor: pointer;
+  padding: 11px 14px; border-radius: 14px; font-weight: 800; font-size: 0.92rem;
+  background: rgba(255, 255, 255, 0.85); color: var(--primary-dark);
+  border: 2px solid rgba(99, 102, 241, 0.3);
+  transition: transform 0.1s, background 0.2s, color 0.2s;
+}
+.select-btn.on { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #fff; border-color: transparent; }
+.select-btn:active { transform: scale(0.97); }
+
+/* 탭의 선택 개수 배지 */
+.tab-count {
+  display: inline-block; min-width: 20px; padding: 1px 7px; margin-left: 2px;
+  font-size: 0.78rem; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45); color: inherit;
+}
+.tab-btn.active .tab-count { background: rgba(255, 255, 255, 0.3); }
+
+/* 연습 탭 */
+.practice-empty {
+  text-align: center; color: var(--muted); font-size: 1rem;
+  background: rgba(255, 255, 255, 0.6); border: 2px dashed rgba(99, 102, 241, 0.3);
+  border-radius: 16px; padding: 26px 18px; line-height: 1.6;
+}
+.pcontrols { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.mic-btn {
+  flex: 1; min-width: 130px; border: none; cursor: pointer;
+  padding: 12px 14px; border-radius: 14px; font-weight: 800; font-size: 0.95rem;
+  background: linear-gradient(135deg, var(--accent), var(--primary)); color: #fff;
+  box-shadow: var(--shadow-sm); transition: transform 0.1s, filter 0.2s;
+}
+.mic-btn:hover { filter: brightness(1.05); }
+.mic-btn:active { transform: scale(0.96); }
+.mic-btn:disabled { opacity: 0.55; cursor: default; }
+.play-rec, .remove-btn {
+  border: none; cursor: pointer; padding: 12px 12px; border-radius: 14px;
+  font-weight: 700; font-size: 0.85rem; background: rgba(255, 255, 255, 0.85);
+  color: var(--primary-dark); box-shadow: var(--shadow-sm);
+}
+.remove-btn { color: var(--neg); }
+.play-rec:active, .remove-btn:active { transform: scale(0.96); }
+
+.pstats {
+  margin-top: 12px; text-align: center; font-size: 0.95rem; color: var(--text);
+  background: rgba(255, 255, 255, 0.7); border-radius: 12px; padding: 8px 10px;
+}
+.pstats .acc { color: var(--primary-dark); }
+.pstats .best { color: var(--pos); }
+.mic-feedback { margin-top: 10px; text-align: center; font-weight: 700; min-height: 22px; }
+.mic-feedback.good { color: var(--pos); }
+.mic-feedback.bad { color: var(--neg); }
+.mic-feedback .heard { color: var(--muted); font-weight: 500; font-size: 0.85rem; }
+
 /* 클릭 가능한 단어 */
 .word {
   cursor: pointer;

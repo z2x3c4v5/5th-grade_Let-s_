@@ -173,6 +173,20 @@ function makeCard(item, opts) {
   box.append(txt, speakBtn);
 
   div.append(top, visual, box);
+
+  // ⭐ 연습 목록 담기 버튼 (권유 문장 카드에만)
+  if (opts.selectable) {
+    const sel = document.createElement("button");
+    sel.className = "select-btn";
+    const on = isSelected(item.en);
+    sel.classList.toggle("on", on);
+    sel.textContent = on ? "✓ 연습 목록에 있음" : "⭐ 연습 목록에 추가";
+    sel.addEventListener("click", e => {
+      e.stopPropagation();
+      toggleSelect(item);
+    });
+    div.append(sel);
+  }
   return div;
 }
 
@@ -183,6 +197,7 @@ function renderGrid(id, list, opts) {
   list.forEach((item, i) => {
     const cardOpts = { extraClass: opts.extraClass || "" };
     if (opts.tones) { cardOpts.tone = i % 6; cardOpts.index = i + 1; }
+    if (opts.selectable) cardOpts.selectable = true;
     grid.appendChild(makeCard(item, cardOpts));
   });
 }
@@ -201,7 +216,7 @@ function renderSuggestions() {
       view.push(Object.assign({}, item, { imgPrompt: IMAGE_PROMPTS[i] }));
     }
   });
-  renderGrid("suggestion-grid", view, { tones: true });
+  renderGrid("suggestion-grid", view, { tones: true, selectable: true });
 }
 
 document.querySelectorAll(".level-btn").forEach(btn => {
@@ -226,9 +241,232 @@ document.querySelectorAll(".cat-btn").forEach(btn => {
   });
 });
 
+/* ===========================================================
+ * 내 문장 연습 (선택 → 말하기/녹음 → 정확도 → 연습 횟수)
+ * =========================================================== */
+
+/* ---- 선택/기록 상태 (브라우저에 저장) ---- */
+let selected = new Map();
+let stats = {};
+try { (JSON.parse(localStorage.getItem("lets_selected") || "[]") || []).forEach(it => selected.set(it.en, it)); } catch (e) {}
+try { stats = JSON.parse(localStorage.getItem("lets_stats") || "{}") || {}; } catch (e) {}
+
+function persist() {
+  try {
+    localStorage.setItem("lets_selected", JSON.stringify([...selected.values()]));
+    localStorage.setItem("lets_stats", JSON.stringify(stats));
+  } catch (e) {}
+}
+function isSelected(en) { return selected.has(en); }
+function toggleSelect(item) {
+  if (selected.has(item.en)) selected.delete(item.en);
+  else selected.set(item.en, { en: item.en, ko: item.ko, emoji: item.emoji, imgPrompt: item.imgPrompt });
+  persist();
+  updatePracticeBadge();
+  renderSuggestions();
+  if (document.getElementById("tab-practice").classList.contains("active")) renderPractice();
+}
+function updatePracticeBadge() {
+  const c = document.getElementById("practice-count");
+  if (c) c.textContent = selected.size;
+}
+
+/* ---- 음성 인식 (정확도 측정) ---- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const srSupported = !!SR;
+let rec = srSupported ? new SR() : null;
+if (rec) { rec.lang = "en-US"; rec.interimResults = false; rec.maxAlternatives = 5; }
+let recBusy = false;
+
+function normalize(s) {
+  return s.toLowerCase().replace(/[^a-z\s']/g, "").replace(/\s+/g, " ").trim();
+}
+function scoreMatch(target, heard) {
+  const t = normalize(target).split(" ").filter(Boolean);
+  const h = new Set(normalize(heard).split(" ").filter(Boolean));
+  if (!t.length) return 0;
+  return t.filter(w => h.has(w)).length / t.length;
+}
+
+/* 한 번 말하기: 음성 인식으로 채점 + (가능하면) 음성 녹음으로 재생본 생성 */
+async function practiceAttempt(target, cb) {
+  if (!rec || recBusy) { cb.onend && cb.onend(); return; }
+  recBusy = true;
+  let stream = null, mr = null, chunks = [], errCode = null;
+
+  try {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mr = new MediaRecorder(stream);
+      mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+      mr.start();
+    }
+  } catch (e) { mr = null; }
+
+  let score = 0, heard = "";
+  rec.onresult = e => {
+    const alts = e.results[0];
+    for (let i = 0; i < alts.length; i++) {
+      const s = scoreMatch(target, alts[i].transcript);
+      if (s > score) { score = s; heard = alts[i].transcript; }
+    }
+  };
+  rec.onerror = ev => { errCode = ev.error; };
+  rec.onend = () => {
+    const finish = url => {
+      if (stream) stream.getTracks().forEach(t => t.stop());
+      recBusy = false;
+      if (errCode && score === 0) cb.onerror && cb.onerror(errCode);
+      else cb.onresult && cb.onresult(Math.round(score * 100), heard, url);
+      cb.onend && cb.onend();
+    };
+    if (mr && mr.state !== "inactive") {
+      mr.onstop = () => {
+        let url = null;
+        try { if (chunks.length) url = URL.createObjectURL(new Blob(chunks, { type: chunks[0].type || "audio/webm" })); } catch (e) {}
+        finish(url);
+      };
+      try { mr.stop(); } catch (e) { finish(null); }
+    } else finish(null);
+  };
+  try { rec.start(); } catch (e) { recBusy = false; cb.onend && cb.onend(); }
+}
+
+/* ---- 연습 카드 ---- */
+function makePracticeCard(item) {
+  const div = document.createElement("div");
+  div.className = "card pcard";
+
+  const top = document.createElement("div");
+  top.className = "card-top";
+  const tag = document.createElement("span");
+  tag.className = "card-tag";
+  tag.textContent = "연습";
+  const listenAll = document.createElement("button");
+  listenAll.className = "listen-all";
+  listenAll.textContent = "듣기 ▶";
+  listenAll.addEventListener("click", () => speak(item.en));
+  top.append(tag, listenAll);
+
+  let visual;
+  if (imageMode && item.imgPrompt) {
+    visual = document.createElement("img");
+    visual.className = "photo";
+    visual.loading = "lazy";
+    visual.alt = item.en;
+    visual.src = imageUrl(item.imgPrompt);
+    visual.addEventListener("error", () => {
+      const em = document.createElement("div");
+      em.className = "emoji";
+      em.textContent = item.emoji;
+      visual.replaceWith(em);
+    });
+  } else {
+    visual = document.createElement("div");
+    visual.className = "emoji";
+    visual.textContent = item.emoji;
+  }
+
+  const box = document.createElement("div");
+  box.className = "sentence-box";
+  const txt = document.createElement("div");
+  txt.className = "sentence-text";
+  const en = document.createElement("div");
+  en.className = "en";
+  en.appendChild(buildWords(item.en));
+  const ko = document.createElement("div");
+  ko.className = "ko";
+  ko.textContent = item.ko;
+  txt.append(en, ko);
+  const speakBtn = document.createElement("button");
+  speakBtn.className = "speak-btn";
+  speakBtn.textContent = "🔊";
+  speakBtn.addEventListener("click", () => speak(item.en));
+  box.append(txt, speakBtn);
+
+  const controls = document.createElement("div");
+  controls.className = "pcontrols";
+  const mic = document.createElement("button");
+  mic.className = "mic-btn";
+  mic.textContent = "🎤 말하기 / 녹음";
+  const play = document.createElement("button");
+  play.className = "play-rec";
+  play.textContent = "▶ 내 녹음 듣기";
+  play.style.display = "none";
+  const remove = document.createElement("button");
+  remove.className = "remove-btn";
+  remove.textContent = "✕ 빼기";
+  remove.addEventListener("click", () => {
+    selected.delete(item.en);
+    persist();
+    updatePracticeBadge();
+    renderPractice();
+    renderSuggestions();
+  });
+  controls.append(mic, play, remove);
+
+  const statsEl = document.createElement("div");
+  statsEl.className = "pstats";
+  const fb = document.createElement("div");
+  fb.className = "mic-feedback";
+
+  function renderStats(last) {
+    const s = stats[item.en] || { attempts: 0, best: 0 };
+    statsEl.innerHTML =
+      `정확도 <b class="acc">${last != null ? last + "%" : "--"}</b>` +
+      ` · 최고 <b class="best">${s.best ? s.best + "%" : "--"}</b>` +
+      ` · 연습 <b>${s.attempts}</b>회`;
+  }
+  renderStats(null);
+
+  let recUrl = null;
+  play.addEventListener("click", () => { if (recUrl) new Audio(recUrl).play(); });
+
+  if (!srSupported) { mic.disabled = true; mic.title = "이 브라우저는 음성 인식을 지원하지 않아요 (Chrome 권장)"; }
+
+  mic.addEventListener("click", () => {
+    fb.textContent = "🎙️ 듣는 중... 또박또박 말해보세요!";
+    fb.className = "mic-feedback";
+    mic.disabled = true;
+    practiceAttempt(item.en, {
+      onresult: (score, heard, url) => {
+        const s = stats[item.en] || { attempts: 0, best: 0 };
+        s.attempts++;
+        s.best = Math.max(s.best, score);
+        stats[item.en] = s;
+        persist();
+        renderStats(score);
+        if (url) { recUrl = url; play.style.display = ""; }
+        if (score >= 80) { fb.className = "mic-feedback good"; fb.innerHTML = `⭐ 훌륭해요! (${score}%)<br><span class="heard">들린 말: ${heard}</span>`; }
+        else if (score >= 50) { fb.className = "mic-feedback good"; fb.innerHTML = `👍 좋아요! 한 번 더! (${score}%)<br><span class="heard">들린 말: ${heard}</span>`; }
+        else { fb.className = "mic-feedback bad"; fb.innerHTML = `🔁 다시 또박또박! (${score}%)<br><span class="heard">들린 말: ${heard || "(못 들었어요)"}</span>`; }
+      },
+      onerror: err => {
+        fb.className = "mic-feedback bad";
+        fb.textContent = err === "not-allowed" ? "마이크 권한을 허용해 주세요." : "다시 시도해 주세요.";
+      },
+      onend: () => { mic.disabled = false; }
+    });
+  });
+
+  div.append(top, visual, box, controls, statsEl, fb);
+  return div;
+}
+
+function renderPractice() {
+  const list = document.getElementById("practice-list");
+  const empty = document.getElementById("practice-empty");
+  const items = [...selected.values()];
+  if (!items.length) { empty.style.display = "block"; list.innerHTML = ""; return; }
+  empty.style.display = "none";
+  list.innerHTML = "";
+  items.forEach(it => list.appendChild(makePracticeCard(it)));
+}
+
 renderSuggestions();
 renderGrid("positive-grid", POSITIVE_RESPONSES, { extraClass: "pos" });
 renderGrid("refusal-grid", REFUSAL_RESPONSES, { extraClass: "neg" });
+updatePracticeBadge();
 
 /* ---------- 탭 전환 (권유 / 긍정 / 부정) ---------- */
 document.querySelectorAll(".tab-btn").forEach(btn => {
@@ -239,6 +477,7 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
     synth.cancel();
     hidePopup();
+    if (btn.dataset.tab === "practice") renderPractice();
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 });

@@ -17,6 +17,7 @@
     <button class="tab-btn active" data-tab="suggest">권유하는 문장</button>
     <button class="tab-btn" data-tab="positive">긍정 대답</button>
     <button class="tab-btn" data-tab="negative">부정 대답</button>
+    <button class="tab-btn" data-tab="practice">🎤 내 문장 연습 <span id="practice-count" class="tab-count">0</span></button>
   </nav>
 
   <div class="toolbar">
@@ -43,7 +44,7 @@
           <button class="cat-btn" data-cat="food">🍪 먹거리</button>
           <button class="cat-btn" data-cat="outdoor">🌳 야외 나들이</button>
         </div>
-        <p class="hint">난이도와 활동 종류를 고르고, 단어를 누르면 뜻과 발음을 알 수 있어요.</p>
+        <p class="hint">난이도와 활동 종류를 고르고, 단어를 누르면 뜻과 발음을 알 수 있어요. 마음에 드는 문장은 <b>⭐</b>로 연습 목록에 담아보세요.</p>
         <div id="suggestion-grid" class="card-grid five"></div>
       </div>
     </section>
@@ -63,6 +64,18 @@
         <h2>미안해! 거절 대답 <span class="count neg">4개</span></h2>
         <p class="hint">권유를 정중하게 거절하는 표현이에요.</p>
         <div id="refusal-grid" class="card-grid answers"></div>
+      </div>
+    </section>
+
+    <!-- ===== 내 문장 연습 ===== -->
+    <section id="tab-practice" class="tab-panel">
+      <div class="section-block">
+        <h2>🎤 내 문장 연습</h2>
+        <p class="hint">⭐로 고른 문장을 말하고 녹음해 <b>정확도</b>를 측정해요. 여러 번 연습할수록 점수가 올라가요!</p>
+        <p id="practice-empty" class="practice-empty">
+          아직 고른 문장이 없어요. <b>권유하는 문장</b> 탭에서 <b>⭐ 연습 목록에 추가</b> 버튼으로 연습할 문장을 골라보세요.
+        </p>
+        <div id="practice-list" class="card-grid five"></div>
       </div>
     </section>
   </main>
