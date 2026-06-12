@@ -281,11 +281,33 @@ let recBusy = false;
 function normalize(s) {
   return s.toLowerCase().replace(/[^a-z\s']/g, "").replace(/\s+/g, " ").trim();
 }
+// 두 단어가 충분히 비슷한지 (복수형/철자 1개 차이 등 너그럽게 인정)
+function levenshtein(a, b) {
+  const m = a.length, n = b.length;
+  const d = Array.from({ length: m + 1 }, (_, i) => [i, ...Array(n).fill(0)]);
+  for (let j = 0; j <= n; j++) d[0][j] = j;
+  for (let i = 1; i <= m; i++)
+    for (let j = 1; j <= n; j++)
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[m][n];
+}
+function wordsClose(a, b) {
+  if (a === b) return true;
+  if (a.length >= 4 && b.length >= 4 && (a.startsWith(b) || b.startsWith(a))) return true; // 복수형/어간
+  return Math.abs(a.length - b.length) <= 1 && levenshtein(a, b) <= 1;          // 철자 1개 차이
+}
+const STOPWORDS = new Set(["a", "an", "the", "to", "of", "on", "in", "at", "for", "but", "i", "i'm", "let's", "lets"]);
+// 0~1 정확도 (조금 관대하게: 기능어 제외, 비슷한 단어 인정, 많이 맞으면 약간 보정)
 function scoreMatch(target, heard) {
   const t = normalize(target).split(" ").filter(Boolean);
-  const h = new Set(normalize(heard).split(" ").filter(Boolean));
-  if (!t.length) return 0;
-  return t.filter(w => h.has(w)).length / t.length;
+  const h = normalize(heard).split(" ").filter(Boolean);
+  let content = t.filter(w => !STOPWORDS.has(w));
+  if (!content.length) content = t;
+  let hit = 0;
+  content.forEach(w => { if (h.some(x => wordsClose(x, w))) hit++; });
+  let score = hit / content.length;
+  if (score >= 0.5) score = Math.min(1, score + 0.12); // 절반 이상 맞으면 살짝 후하게
+  return score;
 }
 
 /* 한 번 말하기: 음성 인식으로 채점 + (가능하면) 음성 녹음으로 재생본 생성 */
@@ -369,9 +391,16 @@ function makePracticeCard(item) {
   speakBtn.addEventListener("click", () => speak(item.en));
   box.append(txt, speakBtn);
 
+  const micArea = document.createElement("div");
+  micArea.className = "mic-area";
   const mic = document.createElement("button");
   mic.className = "mic-btn";
-  mic.textContent = "🎤 말하기";
+  mic.setAttribute("aria-label", "말하기");
+  mic.innerHTML = '<span class="mic-ico">🎙️</span>';
+  const micLabel = document.createElement("div");
+  micLabel.className = "mic-label";
+  micLabel.textContent = "마이크를 누르고 말해보세요";
+  micArea.append(mic, micLabel);
 
   const statsEl = document.createElement("div");
   statsEl.className = "pstats";
@@ -390,9 +419,11 @@ function makePracticeCard(item) {
   if (!srSupported) { mic.disabled = true; mic.title = "이 브라우저는 음성 인식을 지원하지 않아요 (Chrome 권장)"; }
 
   mic.addEventListener("click", () => {
-    fb.textContent = "🎙️ 듣는 중... 또박또박 말해보세요!";
+    if (recBusy || !srSupported) return;
+    mic.classList.add("recording");
+    micLabel.textContent = "🔴 녹음 중... 말해보세요";
+    fb.textContent = "또박또박 말해보세요!";
     fb.className = "mic-feedback";
-    mic.disabled = true;
     practiceAttempt(item.en, {
       onresult: (score, heard) => {
         const s = stats[item.en] || { attempts: 0, best: 0 };
@@ -401,19 +432,22 @@ function makePracticeCard(item) {
         stats[item.en] = s;
         persist();
         renderStats(score);
-        if (score >= 80) { fb.className = "mic-feedback good"; fb.innerHTML = `⭐ 훌륭해요! (${score}%)<br><span class="heard">들린 말: ${heard}</span>`; }
-        else if (score >= 50) { fb.className = "mic-feedback good"; fb.innerHTML = `👍 좋아요! 한 번 더! (${score}%)<br><span class="heard">들린 말: ${heard}</span>`; }
-        else { fb.className = "mic-feedback bad"; fb.innerHTML = `🔁 다시 또박또박! (${score}%)<br><span class="heard">들린 말: ${heard || "(못 들었어요)"}</span>`; }
+        if (score >= 75) { fb.className = "mic-feedback good"; fb.innerHTML = `⭐ 훌륭해요! (${score}%)<br><span class="heard">내가 한 발음: ${heard}</span>`; }
+        else if (score >= 45) { fb.className = "mic-feedback good"; fb.innerHTML = `👍 좋아요! 한 번 더! (${score}%)<br><span class="heard">내가 한 발음: ${heard}</span>`; }
+        else { fb.className = "mic-feedback bad"; fb.innerHTML = `🔁 다시 또박또박! (${score}%)<br><span class="heard">내가 한 발음: ${heard || "(못 들었어요)"}</span>`; }
       },
       onerror: err => {
         fb.className = "mic-feedback bad";
         fb.textContent = err === "not-allowed" ? "마이크 권한을 허용해 주세요." : "다시 시도해 주세요.";
       },
-      onend: () => { mic.disabled = false; }
+      onend: () => {
+        mic.classList.remove("recording");
+        micLabel.textContent = "마이크를 누르고 말해보세요";
+      }
     });
   });
 
-  div.append(top, visual, box, mic, statsEl, fb);
+  div.append(top, visual, box, micArea, statsEl, fb);
   return div;
 }
 
