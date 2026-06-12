@@ -39,8 +39,14 @@ body {
   border-radius: 0 0 30px 30px;
   box-shadow: var(--shadow);
 }
-.app-header h1 { margin: 0; font-size: 1.9rem; letter-spacing: 0.3px; }
+.app-header h1 { margin: 0; font-size: 1.6rem; letter-spacing: 0.2px; line-height: 1.35; }
 .subtitle { margin: 8px 0 0; opacity: 0.95; font-size: 0.95rem; }
+
+/* ===== 상단 도구막대 (말하기 속도) ===== */
+.toolbar {
+  max-width: 900px; margin: 14px auto 0; padding: 0 16px;
+  display: flex; align-items: center; justify-content: flex-end; gap: 14px; flex-wrap: wrap;
+}
 
 /* ===== Tabs ===== */
 .tabs {
