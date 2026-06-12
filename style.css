@@ -84,6 +84,23 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
   gap: 18px;
 }
 .card-grid.small { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+/* 권유 문장: 한 줄에 5개 (5 x 5) */
+.card-grid.five { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+
+/* ===== 난이도 선택 ===== */
+.level-switch { display: flex; gap: 10px; margin: 6px 0 4px; flex-wrap: wrap; }
+.level-btn {
+  border: none; cursor: pointer;
+  padding: 9px 20px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--primary-dark); font-weight: 700; font-size: 0.95rem;
+  box-shadow: var(--shadow-sm); transition: transform 0.1s, background 0.2s, color 0.2s;
+}
+.level-btn.active {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: #fff;
+}
+.level-btn:active { transform: scale(0.95); }
 
 .card {
   position: relative;
@@ -91,7 +108,7 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
   backdrop-filter: blur(8px);
   border: 1.5px solid rgba(255, 255, 255, 0.6);
   border-radius: 24px;
-  padding: 26px 20px 22px;
+  padding: 24px 16px 20px;
   text-align: center;
   box-shadow: var(--shadow-sm);
   transition: transform 0.15s, box-shadow 0.2s;
@@ -99,9 +116,17 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
 .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
 .card.speaking { box-shadow: 0 0 0 3px var(--ring), var(--shadow); }
 
-.card .emoji { font-size: 3rem; line-height: 1; margin-bottom: 10px; }
-.card .en { font-weight: 700; font-size: 1.2rem; line-height: 1.55; }
-.card .ko { color: var(--muted); font-size: 0.95rem; margin-top: 8px; }
+.card .emoji { font-size: 3rem; line-height: 1; margin-bottom: 12px; }
+.card .en { font-weight: 700; font-size: 1.3rem; line-height: 1.55; }
+.card .ko { color: var(--muted); font-size: 1.05rem; margin-top: 10px; }
+
+/* 5열 카드는 폭이 좁으므로 문장 글자만 살짝 줄여 균형 */
+.card-grid.five .card .en { font-size: 1.18rem; }
+.card-grid.five .card .ko { font-size: 0.98rem; }
+
+/* 좁은 화면에서는 자동으로 열 수를 줄여 가독성 유지 */
+@media (max-width: 860px) { .card-grid.five { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .card-grid.five { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 .card.pos { border-color: rgba(16, 185, 129, 0.35); }
 .card.neg { border-color: rgba(244, 63, 94, 0.35); }

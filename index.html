@@ -23,8 +23,13 @@
     <section id="tab-learn" class="tab-panel active">
       <div class="section-block">
         <h2>① 권유하는 문장 <span class="count">25개</span></h2>
-        <p class="hint">카드를 누르면 소리가 나와요. 잘 듣고 따라 말해 보세요.</p>
-        <div id="suggestion-grid" class="card-grid"></div>
+        <div class="level-switch">
+          <button class="level-btn active" data-level="beginner">초급</button>
+          <button class="level-btn" data-level="intermediate">중급</button>
+          <button class="level-btn" data-level="advanced">고급</button>
+        </div>
+        <p class="hint">난이도를 고르고, 단어를 누르면 뜻과 발음을 알 수 있어요.</p>
+        <div id="suggestion-grid" class="card-grid five"></div>
       </div>
 
       <div class="section-block">

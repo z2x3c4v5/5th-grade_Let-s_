@@ -125,10 +125,30 @@ function makeCard(item, extraClass) {
 
 function renderGrid(id, list, extraClass) {
   const grid = document.getElementById(id);
+  grid.innerHTML = "";
   list.forEach(item => grid.appendChild(makeCard(item, extraClass)));
 }
 
-renderGrid("suggestion-grid", SUGGESTIONS);
+/* ---------- 난이도(초급/중급/고급) ---------- */
+let currentLevel = "beginner";
+function currentSuggestions() { return SUGGESTION_LEVELS[currentLevel]; }
+
+function renderSuggestions() {
+  renderGrid("suggestion-grid", currentSuggestions());
+}
+
+document.querySelectorAll(".level-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".level-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentLevel = btn.dataset.level;
+    synth.cancel();
+    hidePopup();
+    renderSuggestions();
+  });
+});
+
+renderSuggestions();
 renderGrid("positive-grid", POSITIVE_RESPONSES, "pos");
 renderGrid("refusal-grid", REFUSAL_RESPONSES, "neg");
 
@@ -171,7 +191,7 @@ let currentResponse = null;
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
 function newSentence() {
-  current = pick(SUGGESTIONS);
+  current = pick(currentSuggestions());
   practiceEmoji.textContent = current.emoji;
   practiceEn.innerHTML = "";
   practiceEn.appendChild(buildWords(current.en));
