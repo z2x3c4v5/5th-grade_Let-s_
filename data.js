@@ -3,7 +3,7 @@
  * - SUGGESTION_LEVELS: 권유 문장 25개 × 3난이도(초급/중급/고급)
  *     · 초급(beginner): 교과서 수준 Let's + 동사
  *     · 중급(intermediate): 어휘 수준 ↑ + 1~2단어 추가
- *     · 고급(advanced): 어휘 수준 더 ↑ + 권유 표현 다양화(How about / Shall we / Why don't we)
+ *     · 고급(advanced): Let's 로 시작하되 어휘 수준 더 ↑ + 수식어/구를 더 추가
  * - POSITIVE_RESPONSES / REFUSAL_RESPONSES: 대답 문장
  * - WORD_MEANINGS: 단어 클릭 시 보여줄 뜻 사전
  *
@@ -68,31 +68,31 @@ const SUGGESTION_LEVELS = {
   ],
 
   advanced: [
-    { en: "Why don't we go swimming at the pool this weekend?", ko: "이번 주말에 수영장에 수영하러 가는 게 어때?",  emoji: "🏊" },
-    { en: "How about watching a thrilling movie this evening?", ko: "오늘 저녁에 스릴 넘치는 영화 보는 게 어때?",   emoji: "🎬" },
-    { en: "Shall we play an exciting board game after dinner?", ko: "저녁 먹고 신나는 보드게임 할까?",              emoji: "🎲" },
-    { en: "Why don't we finish our difficult homework together?", ko: "어려운 숙제 같이 끝내는 게 어때?",           emoji: "📝" },
-    { en: "How about going shopping for new clothes downtown?", ko: "시내에 새 옷 사러 쇼핑 가는 게 어때?",         emoji: "🛍️" },
-    { en: "Why don't we read these amazing comic books together?", ko: "이 멋진 만화책들 같이 읽는 게 어때?",        emoji: "📚" },
-    { en: "Shall we play soccer at the stadium this Saturday?", ko: "이번 토요일에 경기장에서 축구 할까?",          emoji: "⚽" },
-    { en: "Why don't we practice basketball with our friends?", ko: "친구들이랑 농구 연습하는 게 어때?",            emoji: "🏀" },
-    { en: "How about riding bikes through the beautiful park?", ko: "아름다운 공원을 가로질러 자전거 타는 게 어때?", emoji: "🚲" },
-    { en: "Why don't we order a delicious pizza for lunch?",    ko: "점심으로 맛있는 피자 시키는 게 어때?",          emoji: "🍕" },
-    { en: "How about baking sweet cookies for our family?",     ko: "가족을 위해 달콤한 쿠키 굽는 게 어때?",         emoji: "🍪" },
-    { en: "Shall we play badminton outside this afternoon?",    ko: "오늘 오후에 밖에서 배드민턴 칠까?",            emoji: "🏸" },
-    { en: "Why don't we relax at the quiet park nearby?",       ko: "근처 조용한 공원에서 쉬는 게 어때?",           emoji: "🌳" },
-    { en: "How about playing an adventure game on the computer?",ko: "컴퓨터로 모험 게임 하는 게 어때?",            emoji: "🎮" },
-    { en: "Why don't we draw a colorful picture together?",     ko: "알록달록한 그림 같이 그리는 게 어때?",          emoji: "🎨" },
-    { en: "Shall we sing our favorite song on stage?",          ko: "무대에서 가장 좋아하는 노래 부를까?",          emoji: "🎤" },
-    { en: "How about dancing to some exciting music tonight?",  ko: "오늘 밤 신나는 음악에 맞춰 춤추는 게 어때?",   emoji: "💃" },
-    { en: "Why don't we visit the zoo to see the animals?",     ko: "동물들 보러 동물원에 가는 게 어때?",           emoji: "🦁" },
-    { en: "How about flying a colorful kite on the hill?",      ko: "언덕에서 알록달록한 연 날리는 게 어때?",        emoji: "🪁" },
-    { en: "Why don't we play hide-and-seek around the playground?", ko: "놀이터에서 숨바꼭질 하는 게 어때?",         emoji: "🙈" },
-    { en: "Shall we go camping near the lake this summer?",     ko: "이번 여름에 호숫가로 캠핑 갈까?",              emoji: "⛺" },
-    { en: "Why don't we build a huge snowman in the yard?",     ko: "마당에 커다란 눈사람 만드는 게 어때?",          emoji: "⛄" },
-    { en: "How about taking a peaceful walk along the beach?",  ko: "해변을 따라 한가로이 산책하는 게 어때?",        emoji: "🚶" },
-    { en: "Why don't we bake warm bread in the morning?",       ko: "아침에 따뜻한 빵 굽는 게 어때?",               emoji: "🍞" },
-    { en: "Shall we play table tennis at the club today?",      ko: "오늘 클럽에서 탁구 칠까?",                     emoji: "🏓" },
+    { en: "Let's go swimming at the outdoor pool this weekend.",   ko: "이번 주말에 야외 수영장에 수영하러 가자.",     emoji: "🏊" },
+    { en: "Let's watch a thrilling action movie this evening.",    ko: "오늘 저녁에 스릴 넘치는 액션 영화 보자.",      emoji: "🎬" },
+    { en: "Let's play an exciting board game after dinner.",       ko: "저녁 먹고 신나는 보드게임 하자.",              emoji: "🎲" },
+    { en: "Let's finish our difficult homework together quickly.", ko: "어려운 숙제 같이 빨리 끝내자.",                emoji: "📝" },
+    { en: "Let's go shopping for new clothes downtown.",           ko: "시내에 새 옷 사러 쇼핑하러 가자.",             emoji: "🛍️" },
+    { en: "Let's read these amazing comic books together.",        ko: "이 멋진 만화책들 같이 읽자.",                  emoji: "📚" },
+    { en: "Let's play soccer at the stadium this Saturday.",       ko: "이번 토요일에 경기장에서 축구 하자.",          emoji: "⚽" },
+    { en: "Let's practice basketball with our friends today.",     ko: "오늘 친구들이랑 농구 연습하자.",               emoji: "🏀" },
+    { en: "Let's ride bikes through the beautiful park.",          ko: "아름다운 공원을 가로질러 자전거 타자.",        emoji: "🚲" },
+    { en: "Let's order a delicious cheese pizza for lunch.",       ko: "점심으로 맛있는 치즈 피자 시키자.",            emoji: "🍕" },
+    { en: "Let's bake sweet chocolate cookies for our family.",    ko: "가족을 위해 달콤한 초콜릿 쿠키 굽자.",         emoji: "🍪" },
+    { en: "Let's play badminton outside this sunny afternoon.",    ko: "화창한 오늘 오후에 밖에서 배드민턴 치자.",     emoji: "🏸" },
+    { en: "Let's relax at the quiet park nearby.",                 ko: "근처 조용한 공원에서 쉬자.",                   emoji: "🌳" },
+    { en: "Let's play an exciting adventure game on the computer.",ko: "컴퓨터로 신나는 모험 게임 하자.",              emoji: "🎮" },
+    { en: "Let's draw a colorful picture of animals together.",    ko: "동물들 알록달록한 그림 같이 그리자.",          emoji: "🎨" },
+    { en: "Let's sing our favorite song on stage.",               ko: "무대에서 가장 좋아하는 노래 부르자.",          emoji: "🎤" },
+    { en: "Let's dance to some exciting music tonight.",           ko: "오늘 밤 신나는 음악에 맞춰 춤추자.",           emoji: "💃" },
+    { en: "Let's visit the zoo to see the wild animals.",          ko: "야생 동물들 보러 동물원에 가자.",              emoji: "🦁" },
+    { en: "Let's fly a colorful kite on the windy hill.",          ko: "바람 부는 언덕에서 알록달록한 연 날리자.",     emoji: "🪁" },
+    { en: "Let's play hide-and-seek around the playground.",       ko: "놀이터에서 숨바꼭질 하자.",                    emoji: "🙈" },
+    { en: "Let's go camping near the lake this summer.",           ko: "이번 여름에 호숫가로 캠핑 가자.",              emoji: "⛺" },
+    { en: "Let's build a huge snowman in the yard.",               ko: "마당에 커다란 눈사람 만들자.",                 emoji: "⛄" },
+    { en: "Let's take a peaceful walk along the beach.",           ko: "해변을 따라 한가로이 산책하자.",               emoji: "🚶" },
+    { en: "Let's bake warm fresh bread in the morning.",           ko: "아침에 따뜻한 갓 구운 빵 굽자.",               emoji: "🍞" },
+    { en: "Let's play table tennis at the club today.",            ko: "오늘 클럽에서 탁구 치자.",                     emoji: "🏓" },
   ],
 };
 
@@ -155,7 +155,8 @@ const WORD_MEANINGS = {
   "near": "~가까이에", "lake": "호수", "summer": "여름", "big": "큰", "build": "짓다, 만들다",
   "huge": "거대한", "yard": "마당", "peaceful": "평화로운, 한가로운", "beach": "해변",
   "fresh": "신선한, 갓 만든", "warm": "따뜻한", "morning": "아침", "class": "수업",
-  "club": "클럽, 동아리", "today": "오늘",
+  "club": "클럽, 동아리", "today": "오늘", "outdoor": "야외의",
+  "quickly": "빨리", "sunny": "화창한", "wild": "야생의", "windy": "바람 부는",
   "why": "왜 (Why don't we ~: ~하는 게 어때)", "don't": "~하지 않다 (do not)",
 
   // 대답 문장 단어

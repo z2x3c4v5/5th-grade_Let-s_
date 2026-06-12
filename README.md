@@ -6,7 +6,7 @@
 - **권유 문장 25개 × 3난이도** — 초급 / 중급 / 고급
   - 초급: 교과서 수준 `Let's + 동사`
   - 중급: 어휘 수준을 살짝 높이고 1~2단어 추가 (예: `Let's go swimming this afternoon.`)
-  - 고급: 어휘 수준을 더 높이고 권유 표현을 다양화 (`How about ~`, `Shall we ~`, `Why don't we ~`)
+  - 고급: `Let's` 로 시작하되 어휘 수준을 더 높이고 수식어·구를 더 추가 (예: `Let's go swimming at the outdoor pool this weekend.`)
 - **긍정 대답 4개** — `Sounds good.` 외 3개
 - **거절 대답 4개** — `Sorry, but I'm busy.` 외 3개 (예: `Sorry, but I'm tired.`)
 
