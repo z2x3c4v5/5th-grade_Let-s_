@@ -95,7 +95,11 @@ function buildWords(sentence) {
 /* ---------- 카드 만들기 ---------- */
 function makeCard(item, extraClass) {
   const div = document.createElement("div");
-  div.className = "card" + (item.textbook ? " textbook" : "") + (extraClass ? " " + extraClass : "");
+  div.className = "card" + (extraClass ? " " + extraClass : "");
+
+  const emoji = document.createElement("div");
+  emoji.className = "emoji";
+  emoji.textContent = item.emoji;
 
   const en = document.createElement("div");
   en.className = "en";
@@ -115,7 +119,7 @@ function makeCard(item, extraClass) {
       () => div.classList.remove("speaking"));
   });
 
-  div.append(en, ko, listen);
+  div.append(emoji, en, ko, listen);
   return div;
 }
 
@@ -147,6 +151,7 @@ document.getElementById("rate").addEventListener("input", e => {
 
 /* ---------- 대화 연습 ---------- */
 const practiceCard = document.getElementById("practice-card");
+const practiceEmoji = practiceCard.querySelector(".practice-emoji");
 const practiceEn = practiceCard.querySelector(".practice-en");
 const practiceKo = practiceCard.querySelector(".practice-ko");
 const btnNew = document.getElementById("btn-new");
@@ -155,6 +160,7 @@ const btnMic = document.getElementById("btn-mic");
 const micResult = document.getElementById("mic-result");
 const responseBox = document.getElementById("response-box");
 const responseCard = document.getElementById("response-card");
+const responseEmoji = responseCard.querySelector(".response-emoji");
 const responseEn = responseCard.querySelector(".response-en");
 const responseKo = responseCard.querySelector(".response-ko");
 const btnListenResponse = document.getElementById("btn-listen-response");
@@ -166,6 +172,7 @@ function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
 function newSentence() {
   current = pick(SUGGESTIONS);
+  practiceEmoji.textContent = current.emoji;
   practiceEn.innerHTML = "";
   practiceEn.appendChild(buildWords(current.en));
   practiceKo.textContent = current.ko;
@@ -188,6 +195,7 @@ function showResponse() {
   const pool = positive ? POSITIVE_RESPONSES : REFUSAL_RESPONSES;
   currentResponse = pick(pool);
   responseCard.className = "response-card " + (positive ? "pos" : "neg");
+  responseEmoji.textContent = currentResponse.emoji;
   responseEn.innerHTML = "";
   responseEn.appendChild(buildWords(currentResponse.en));
   responseKo.textContent = currentResponse.ko;
