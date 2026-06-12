@@ -88,6 +88,8 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
 .card-grid.five { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 /* 대답: 한 그룹 안에서 2 x 2 */
 .card-grid.resp { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+/* 대답 탭: 4개를 큼직하게 2 x 2 */
+.card-grid.answers { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; max-width: 760px; margin: 0 auto; }
 
 /* 긍정/거절 대답을 좌우로 나란히 (스크롤 절감) */
 .responses-row {
@@ -179,7 +181,7 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
 }
 @media (max-width: 560px) {
   .card-grid.five { grid-template-columns: 1fr; }
-  .card-grid.resp { grid-template-columns: 1fr; }
+  .card-grid.resp, .card-grid.answers { grid-template-columns: 1fr; }
 }
 
 .card.pos { background: #e7f8f0; border-color: rgba(16, 185, 129, 0.4); }

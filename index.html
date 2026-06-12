@@ -13,10 +13,17 @@
     <p class="subtitle">듣고 따라 말해 보아요 · Listen &amp; Repeat</p>
   </header>
 
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="suggest">권유하는 문장</button>
+    <button class="tab-btn" data-tab="positive">긍정 대답</button>
+    <button class="tab-btn" data-tab="negative">부정 대답</button>
+  </nav>
+
   <main>
-    <section class="learn-panel">
+    <!-- ===== 권유하는 문장 ===== -->
+    <section id="tab-suggest" class="tab-panel active">
       <div class="section-block">
-        <h2>① 권유하는 문장 <span class="count">25개</span></h2>
+        <h2>권유하는 문장 <span class="count">25개</span></h2>
         <div class="level-switch">
           <button class="level-btn active" data-level="beginner">초급</button>
           <button class="level-btn" data-level="intermediate">중급</button>
@@ -25,17 +32,23 @@
         <p class="hint">난이도를 고르고, 단어를 누르면 뜻과 발음을 알 수 있어요.</p>
         <div id="suggestion-grid" class="card-grid five"></div>
       </div>
+    </section>
 
-      <div class="responses-row">
-        <div class="section-block">
-          <h2>② 좋아요! 긍정 대답 <span class="count pos">4개</span></h2>
-          <div id="positive-grid" class="card-grid resp"></div>
-        </div>
+    <!-- ===== 긍정 대답 ===== -->
+    <section id="tab-positive" class="tab-panel">
+      <div class="section-block">
+        <h2>좋아요! 긍정 대답 <span class="count pos">4개</span></h2>
+        <p class="hint">권유에 기분 좋게 대답하는 표현이에요.</p>
+        <div id="positive-grid" class="card-grid answers"></div>
+      </div>
+    </section>
 
-        <div class="section-block">
-          <h2>③ 미안해! 거절 대답 <span class="count neg">4개</span></h2>
-          <div id="refusal-grid" class="card-grid resp"></div>
-        </div>
+    <!-- ===== 부정 대답 ===== -->
+    <section id="tab-negative" class="tab-panel">
+      <div class="section-block">
+        <h2>미안해! 거절 대답 <span class="count neg">4개</span></h2>
+        <p class="hint">권유를 정중하게 거절하는 표현이에요.</p>
+        <div id="refusal-grid" class="card-grid answers"></div>
       </div>
     </section>
   </main>

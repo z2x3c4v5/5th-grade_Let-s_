@@ -182,6 +182,19 @@ renderSuggestions();
 renderGrid("positive-grid", POSITIVE_RESPONSES, { extraClass: "pos" });
 renderGrid("refusal-grid", REFUSAL_RESPONSES, { extraClass: "neg" });
 
+/* ---------- 탭 전환 (권유 / 긍정 / 부정) ---------- */
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+    synth.cancel();
+    hidePopup();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
+
 /* ---------- 속도 조절 ---------- */
 document.getElementById("rate").addEventListener("input", e => {
   speakRate = parseFloat(e.target.value);
