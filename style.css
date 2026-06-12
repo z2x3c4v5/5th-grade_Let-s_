@@ -240,27 +240,28 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
   background: rgba(255, 255, 255, 0.6); border: 2px dashed rgba(99, 102, 241, 0.3);
   border-radius: 16px; padding: 26px 18px; line-height: 1.6;
 }
-.pcontrols { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.pcard { display: flex; flex-direction: column; }
+.premove {
+  border: none; cursor: pointer; width: 28px; height: 28px; border-radius: 50%;
+  font-size: 0.85rem; font-weight: 800; line-height: 1;
+  background: rgba(244, 63, 94, 0.12); color: var(--neg);
+  transition: transform 0.1s, background 0.2s;
+}
+.premove:hover { background: rgba(244, 63, 94, 0.22); }
+.premove:active { transform: scale(0.9); }
 .mic-btn {
-  flex: 1; min-width: 130px; border: none; cursor: pointer;
-  padding: 12px 14px; border-radius: 14px; font-weight: 800; font-size: 0.95rem;
+  width: 100%; margin-top: 14px; border: none; cursor: pointer;
+  padding: 13px 14px; border-radius: 14px; font-weight: 800; font-size: 1rem;
   background: linear-gradient(135deg, var(--accent), var(--primary)); color: #fff;
   box-shadow: var(--shadow-sm); transition: transform 0.1s, filter 0.2s;
 }
 .mic-btn:hover { filter: brightness(1.05); }
-.mic-btn:active { transform: scale(0.96); }
+.mic-btn:active { transform: scale(0.97); }
 .mic-btn:disabled { opacity: 0.55; cursor: default; }
-.play-rec, .remove-btn {
-  border: none; cursor: pointer; padding: 12px 12px; border-radius: 14px;
-  font-weight: 700; font-size: 0.85rem; background: rgba(255, 255, 255, 0.85);
-  color: var(--primary-dark); box-shadow: var(--shadow-sm);
-}
-.remove-btn { color: var(--neg); }
-.play-rec:active, .remove-btn:active { transform: scale(0.96); }
 
 .pstats {
   margin-top: 12px; text-align: center; font-size: 0.95rem; color: var(--text);
-  background: rgba(255, 255, 255, 0.7); border-radius: 12px; padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.7); border-radius: 12px; padding: 9px 10px;
 }
 .pstats .acc { color: var(--primary-dark); }
 .pstats .best { color: var(--pos); }

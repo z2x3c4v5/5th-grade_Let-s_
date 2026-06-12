@@ -289,21 +289,10 @@ function scoreMatch(target, heard) {
 }
 
 /* 한 번 말하기: 음성 인식으로 채점 + (가능하면) 음성 녹음으로 재생본 생성 */
-async function practiceAttempt(target, cb) {
+function practiceAttempt(target, cb) {
   if (!rec || recBusy) { cb.onend && cb.onend(); return; }
   recBusy = true;
-  let stream = null, mr = null, chunks = [], errCode = null;
-
-  try {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mr = new MediaRecorder(stream);
-      mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
-      mr.start();
-    }
-  } catch (e) { mr = null; }
-
-  let score = 0, heard = "";
+  let score = 0, heard = "", errCode = null;
   rec.onresult = e => {
     const alts = e.results[0];
     for (let i = 0; i < alts.length; i++) {
@@ -313,21 +302,10 @@ async function practiceAttempt(target, cb) {
   };
   rec.onerror = ev => { errCode = ev.error; };
   rec.onend = () => {
-    const finish = url => {
-      if (stream) stream.getTracks().forEach(t => t.stop());
-      recBusy = false;
-      if (errCode && score === 0) cb.onerror && cb.onerror(errCode);
-      else cb.onresult && cb.onresult(Math.round(score * 100), heard, url);
-      cb.onend && cb.onend();
-    };
-    if (mr && mr.state !== "inactive") {
-      mr.onstop = () => {
-        let url = null;
-        try { if (chunks.length) url = URL.createObjectURL(new Blob(chunks, { type: chunks[0].type || "audio/webm" })); } catch (e) {}
-        finish(url);
-      };
-      try { mr.stop(); } catch (e) { finish(null); }
-    } else finish(null);
+    recBusy = false;
+    if (errCode && score === 0) cb.onerror && cb.onerror(errCode);
+    else cb.onresult && cb.onresult(Math.round(score * 100), heard);
+    cb.onend && cb.onend();
   };
   try { rec.start(); } catch (e) { recBusy = false; cb.onend && cb.onend(); }
 }
@@ -342,11 +320,18 @@ function makePracticeCard(item) {
   const tag = document.createElement("span");
   tag.className = "card-tag";
   tag.textContent = "연습";
-  const listenAll = document.createElement("button");
-  listenAll.className = "listen-all";
-  listenAll.textContent = "듣기 ▶";
-  listenAll.addEventListener("click", () => speak(item.en));
-  top.append(tag, listenAll);
+  const remove = document.createElement("button");
+  remove.className = "premove";
+  remove.setAttribute("aria-label", "목록에서 빼기");
+  remove.textContent = "✕";
+  remove.addEventListener("click", () => {
+    selected.delete(item.en);
+    persist();
+    updatePracticeBadge();
+    renderPractice();
+    renderSuggestions();
+  });
+  top.append(tag, remove);
 
   let visual;
   if (imageMode && item.imgPrompt) {
@@ -384,26 +369,9 @@ function makePracticeCard(item) {
   speakBtn.addEventListener("click", () => speak(item.en));
   box.append(txt, speakBtn);
 
-  const controls = document.createElement("div");
-  controls.className = "pcontrols";
   const mic = document.createElement("button");
   mic.className = "mic-btn";
-  mic.textContent = "🎤 말하기 / 녹음";
-  const play = document.createElement("button");
-  play.className = "play-rec";
-  play.textContent = "▶ 내 녹음 듣기";
-  play.style.display = "none";
-  const remove = document.createElement("button");
-  remove.className = "remove-btn";
-  remove.textContent = "✕ 빼기";
-  remove.addEventListener("click", () => {
-    selected.delete(item.en);
-    persist();
-    updatePracticeBadge();
-    renderPractice();
-    renderSuggestions();
-  });
-  controls.append(mic, play, remove);
+  mic.textContent = "🎤 말하기";
 
   const statsEl = document.createElement("div");
   statsEl.className = "pstats";
@@ -419,9 +387,6 @@ function makePracticeCard(item) {
   }
   renderStats(null);
 
-  let recUrl = null;
-  play.addEventListener("click", () => { if (recUrl) new Audio(recUrl).play(); });
-
   if (!srSupported) { mic.disabled = true; mic.title = "이 브라우저는 음성 인식을 지원하지 않아요 (Chrome 권장)"; }
 
   mic.addEventListener("click", () => {
@@ -429,14 +394,13 @@ function makePracticeCard(item) {
     fb.className = "mic-feedback";
     mic.disabled = true;
     practiceAttempt(item.en, {
-      onresult: (score, heard, url) => {
+      onresult: (score, heard) => {
         const s = stats[item.en] || { attempts: 0, best: 0 };
         s.attempts++;
         s.best = Math.max(s.best, score);
         stats[item.en] = s;
         persist();
         renderStats(score);
-        if (url) { recUrl = url; play.style.display = ""; }
         if (score >= 80) { fb.className = "mic-feedback good"; fb.innerHTML = `⭐ 훌륭해요! (${score}%)<br><span class="heard">들린 말: ${heard}</span>`; }
         else if (score >= 50) { fb.className = "mic-feedback good"; fb.innerHTML = `👍 좋아요! 한 번 더! (${score}%)<br><span class="heard">들린 말: ${heard}</span>`; }
         else { fb.className = "mic-feedback bad"; fb.innerHTML = `🔁 다시 또박또박! (${score}%)<br><span class="heard">들린 말: ${heard || "(못 들었어요)"}</span>`; }
@@ -449,7 +413,7 @@ function makePracticeCard(item) {
     });
   });
 
-  div.append(top, visual, box, controls, statsEl, fb);
+  div.append(top, visual, box, mic, statsEl, fb);
   return div;
 }
 
