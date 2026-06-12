@@ -188,6 +188,23 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
 .card-grid.resp .card .emoji { font-size: 2.7rem; }
 .card-grid.resp .card .en { font-size: 1.2rem; }
 
+/* 받아쓰기용 짧은 답 */
+.dictation {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-top: 14px; padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 2px dashed rgba(99, 102, 241, 0.45);
+  border-radius: 14px;
+}
+.dict-label { font-size: 0.85rem; font-weight: 700; color: var(--muted); }
+.dict-word {
+  font-size: 1.3rem; font-weight: 800; color: var(--primary-dark);
+  background: #fff; padding: 4px 14px; border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+}
+.card.neg .dict-word { color: var(--neg); }
+.card.pos .dict-word { color: var(--pos); }
+
 /* ===== 카드 파스텔 색 (참고와 살짝 다른 톤) ===== */
 .card.tone-0 { background: #e3f7ee; border-color: #c4ecdb; }
 .card.tone-1 { background: #e6effd; border-color: #cfe0fb; }

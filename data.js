@@ -181,20 +181,20 @@ const SUGGESTION_CATEGORIES = [
   "food",    // 35 bubble tea
 ];
 
-// 긍정적으로 대답하는 문장
+// 긍정적으로 대답하는 문장 (short: 받아쓰기용 짧은 답)
 const POSITIVE_RESPONSES = [
-  { en: "Sounds good.",     ko: "좋아.",       emoji: "😄" },
-  { en: "Sure!",            ko: "물론이지!",   emoji: "👍" },
-  { en: "That sounds fun!", ko: "재미있겠다!", emoji: "🤩" },
-  { en: "Okay, let's go!",  ko: "좋아, 가자!", emoji: "🙌" },
+  { en: "Sounds good.",     ko: "좋아.",       emoji: "😄", short: "Good!" },
+  { en: "Sure!",            ko: "물론이지!",   emoji: "👍", short: "Yes!" },
+  { en: "That sounds fun!", ko: "재미있겠다!", emoji: "🤩", short: "Fun!" },
+  { en: "Okay, let's go!",  ko: "좋아, 가자!", emoji: "🙌", short: "OK!" },
 ];
 
-// 거절하는 문장
+// 거절하는 문장 (short: 받아쓰기용 짧은 답)
 const REFUSAL_RESPONSES = [
-  { en: "Sorry, but I'm busy.",      ko: "미안하지만, 나는 바빠.",   emoji: "😅" },
-  { en: "Sorry, but I'm tired.",     ko: "미안하지만, 나는 피곤해.", emoji: "😴" },
-  { en: "Sorry, maybe next time.",   ko: "미안, 다음에 하자.",       emoji: "🙏" },
-  { en: "Sorry, I can't right now.", ko: "미안, 지금은 안 돼.",      emoji: "😣" },
+  { en: "Sorry, but I'm busy.",      ko: "미안하지만, 나는 바빠.",   emoji: "😅", short: "busy" },
+  { en: "Sorry, but I'm tired.",     ko: "미안하지만, 나는 피곤해.", emoji: "😴", short: "tired" },
+  { en: "Sorry, maybe next time.",   ko: "미안, 다음에 하자.",       emoji: "🙏", short: "Next time." },
+  { en: "Sorry, I can't right now.", ko: "미안, 지금은 안 돼.",      emoji: "😣", short: "Sorry." },
 ];
 
 /*

@@ -145,6 +145,15 @@ function makeCard(item, opts) {
   box.append(txt, speakBtn);
 
   div.append(top, emoji, box);
+
+  // 받아쓰기용 짧은 답 (대답 카드에만)
+  if (item.short) {
+    const dict = document.createElement("div");
+    dict.className = "dictation";
+    dict.innerHTML = `<span class="dict-label">✏️ 받아쓰기</span><span class="dict-word"></span>`;
+    dict.querySelector(".dict-word").textContent = item.short;
+    div.append(dict);
+  }
   return div;
 }
 
