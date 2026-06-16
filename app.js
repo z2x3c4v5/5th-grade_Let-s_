@@ -205,6 +205,7 @@ function renderGrid(id, list, opts) {
 /* ---------- 난이도(초급/중급/고급) + 활동 종류 ---------- */
 let currentLevel = "beginner";
 let currentCategory = "all";
+let patternMode = "lets"; // "lets" 또는 "like"
 function currentSuggestions() { return SUGGESTION_LEVELS[currentLevel]; }
 
 function renderSuggestions() {
@@ -213,7 +214,13 @@ function renderSuggestions() {
   lvl.forEach((item, i) => {
     if (currentCategory === "all" || SUGGESTION_CATEGORIES[i] === currentCategory) {
       // 원래 인덱스의 이미지 키워드를 붙여서 전달
-      view.push(Object.assign({}, item, { imgPrompt: IMAGE_PROMPTS[i] }));
+      const v = Object.assign({}, item, { imgPrompt: IMAGE_PROMPTS[i] });
+      if (patternMode === "like") {
+        const L = LIKE_DATA[i];
+        v.en = `Do you like ${L.en}? I like ${L.en}.`;
+        v.ko = `${L.ko} 좋아하니? / 나는 ${L.ko} 좋아해.`;
+      }
+      view.push(v);
     }
   });
   renderGrid("suggestion-grid", view, { tones: true, selectable: true });
@@ -239,6 +246,19 @@ document.querySelectorAll(".cat-btn").forEach(btn => {
     hidePopup();
     renderSuggestions();
   });
+});
+
+/* 구문 전환: Let's ~  ⇄  Do you like ~? / I like ~. */
+const patternBtn = document.getElementById("pattern-btn");
+patternBtn.addEventListener("click", () => {
+  patternMode = patternMode === "lets" ? "like" : "lets";
+  patternBtn.classList.toggle("on", patternMode === "like");
+  patternBtn.textContent = patternMode === "like"
+    ? "🔄 Let's ~ 구문으로 되돌리기"
+    : "🔄 Do you like ~? 구문으로 바꾸기";
+  synth.cancel();
+  hidePopup();
+  renderSuggestions();
 });
 
 /* ===========================================================

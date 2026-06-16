@@ -134,6 +134,18 @@ main { max-width: 900px; margin: 0 auto; padding: 0 16px 50px; }
 }
 .cat-btn:active { transform: scale(0.95); }
 
+/* ===== Let's ~ / Do you like ~? 구문 전환 ===== */
+.pattern-switch { margin: 12px 0 4px; }
+.pattern-btn {
+  border: none; cursor: pointer; border-radius: 999px;
+  padding: 11px 20px; font-weight: 800; font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.85); color: var(--accent);
+  border: 2px solid rgba(236, 72, 153, 0.35);
+  box-shadow: var(--shadow-sm); transition: transform 0.1s, background 0.2s, color 0.2s;
+}
+.pattern-btn.on { background: linear-gradient(135deg, var(--accent), #db2777); color: #fff; border-color: transparent; }
+.pattern-btn:active { transform: scale(0.96); }
+
 .card {
   position: relative;
   background: var(--card);

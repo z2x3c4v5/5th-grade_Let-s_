@@ -224,6 +224,49 @@ const IMAGE_PROMPTS = [
   "a cup of bubble tea",                  // 35 bubble tea
 ];
 
+/*
+ * "Do you like ~? / I like ~." 변형용 표현 (인덱스 순서, 세 난이도 공통)
+ * en: 영어 빈칸에 들어갈 말, ko: 한글 활동 이름
+ */
+const LIKE_DATA = [
+  { en: "swimming",          ko: "수영" },          // 0
+  { en: "movies",            ko: "영화" },          // 1
+  { en: "board games",       ko: "보드게임" },      // 2
+  { en: "homework",          ko: "숙제" },          // 3
+  { en: "shopping",          ko: "쇼핑" },          // 4
+  { en: "comic books",       ko: "만화책" },        // 5
+  { en: "soccer",            ko: "축구" },          // 6
+  { en: "basketball",        ko: "농구" },          // 7
+  { en: "riding bikes",      ko: "자전거 타기" },   // 8
+  { en: "pizza",             ko: "피자" },          // 9
+  { en: "cookies",           ko: "쿠키" },          // 10
+  { en: "badminton",         ko: "배드민턴" },      // 11
+  { en: "the park",          ko: "공원" },          // 12
+  { en: "computer games",    ko: "컴퓨터 게임" },   // 13
+  { en: "drawing",           ko: "그림 그리기" },   // 14
+  { en: "singing",           ko: "노래" },          // 15
+  { en: "dancing",           ko: "춤" },            // 16
+  { en: "the zoo",           ko: "동물원" },        // 17
+  { en: "flying kites",      ko: "연날리기" },      // 18
+  { en: "hide-and-seek",     ko: "숨바꼭질" },      // 19
+  { en: "camping",           ko: "캠핑" },          // 20
+  { en: "making snowmen",    ko: "눈사람 만들기" }, // 21
+  { en: "walking",           ko: "산책" },          // 22
+  { en: "bread",             ko: "빵" },            // 23
+  { en: "table tennis",      ko: "탁구" },          // 24
+  { en: "taking photos",     ko: "사진 찍기" },     // 25
+  { en: "board game cafes",  ko: "보드게임 카페" }, // 26
+  { en: "tanghulu",          ko: "탕후루" },        // 27
+  { en: "escape rooms",      ko: "방탈출" },        // 28
+  { en: "baseball",          ko: "야구" },          // 29
+  { en: "climbing",          ko: "클라이밍" },      // 30
+  { en: "chicken",           ko: "치킨" },          // 31
+  { en: "tteokbokki",        ko: "떡볶이" },        // 32
+  { en: "ice cream",         ko: "아이스크림" },    // 33
+  { en: "hamburgers",        ko: "햄버거" },        // 34
+  { en: "bubble tea",        ko: "버블티" },        // 35
+];
+
 // 긍정적으로 대답하는 문장
 const POSITIVE_RESPONSES = [
   { en: "Sounds good.",     ko: "좋아.",       emoji: "😄" },
@@ -294,6 +337,11 @@ const WORD_MEANINGS = {
   "i'm": "나는 ~이다 (I am)", "busy": "바쁜", "tired": "피곤한", "maybe": "아마, 어쩌면",
   "next": "다음의", "time": "시간, 번 (next time: 다음에)", "i": "나",
   "can't": "할 수 없다 (cannot)", "right": "바로 (right now: 지금 당장)", "now": "지금",
+  "you": "너, 당신 (Do you like ~?: ~를 좋아하니?)",
+  "like": "좋아하다 (I like ~: 나는 ~를 좋아해)",
+  "drawing": "그림 그리기", "singing": "노래하기", "flying": "날리기 (fly)",
+  "kites": "연들", "making": "만들기 (make)", "snowmen": "눈사람들",
+  "walking": "걷기, 산책", "taking": "찍기, 하기 (take)", "cafes": "카페들", "rooms": "방들",
   "great": "멋진, 훌륭한", "idea": "생각, 아이디어", "course": "(of course: 당연하지)",
   "yes": "응, 그래", "i'd": "나는 ~하고 싶다 (I would)", "love": "무척 좋아하다, 정말 ~하고 싶다",
   "not": "~아니다, ~않다", "feeling": "느끼는, 기분", "well": "잘, 건강한 (feeling well: 컨디션이 좋은)",
