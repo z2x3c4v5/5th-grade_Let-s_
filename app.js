@@ -196,7 +196,7 @@ function renderGrid(id, list, opts) {
   grid.innerHTML = "";
   list.forEach((item, i) => {
     const cardOpts = { extraClass: opts.extraClass || "" };
-    if (opts.tones) { cardOpts.tone = i % 6; cardOpts.index = i + 1; }
+    if (opts.tones) { cardOpts.tone = i % 6; if (!opts.noIndex) cardOpts.index = i + 1; }
     if (opts.selectable) { cardOpts.selectable = true; cardOpts.selectType = opts.selectType; }
     grid.appendChild(makeCard(item, cardOpts));
   });
@@ -495,6 +495,8 @@ function renderPractice() {
 
 renderSuggestions();
 renderResponses();
+renderGrid("day-grid", DAY_EXPRESSIONS, { tones: true, noIndex: true });
+renderGrid("place-grid", PLACE_EXPRESSIONS, { tones: true, noIndex: true });
 updatePracticeBadge();
 
 /* ---------- 탭 전환 (권유 / 긍정 / 부정) ---------- */

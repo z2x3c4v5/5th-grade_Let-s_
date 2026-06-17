@@ -17,6 +17,7 @@
     <button class="tab-btn active" data-tab="suggest">권유하는 문장</button>
     <button class="tab-btn" data-tab="positive">긍정 대답</button>
     <button class="tab-btn" data-tab="negative">부정 대답</button>
+    <button class="tab-btn" data-tab="words">📅 요일·장소</button>
     <button class="tab-btn" data-tab="practice">🎤 내 문장 연습 <span id="practice-count" class="tab-count">0</span></button>
   </nav>
 
@@ -67,6 +68,20 @@
         <h2>미안해! 거절 대답 <span class="count neg">4개</span></h2>
         <p class="hint">권유를 정중하게 거절하는 표현이에요. <b>⭐</b>로 연습 목록에 담아보세요.</p>
         <div id="refusal-grid" class="card-grid answers"></div>
+      </div>
+    </section>
+
+    <!-- ===== 요일 · 장소 ===== -->
+    <section id="tab-words" class="tab-panel">
+      <div class="section-block">
+        <h2>📅 요일 · 때 <span class="count">12개</span></h2>
+        <p class="hint"><b>Let's ~</b> 뒤에 붙여 "언제" 할지 말해요. (예: Let's play soccer <b>on Saturday</b>.)</p>
+        <div id="day-grid" class="card-grid five"></div>
+      </div>
+      <div class="section-block">
+        <h2>📍 장소 <span class="count">12개</span></h2>
+        <p class="hint"><b>See you at ___ .</b> 의 빈칸에 쓸 수 있어요. (예: <b>See you at the park</b>. Bye!)</p>
+        <div id="place-grid" class="card-grid five"></div>
       </div>
     </section>
 

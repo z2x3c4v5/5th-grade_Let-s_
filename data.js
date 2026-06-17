@@ -267,6 +267,38 @@ const LIKE_DATA = [
   { en: "bubble tea",        ko: "버블티" },        // 35
 ];
 
+/* 요일·때 표현 (Let's ~ 뒤에 붙여 "언제"를 말할 때) */
+const DAY_EXPRESSIONS = [
+  { en: "on Monday",      ko: "월요일에",    emoji: "📅" },
+  { en: "on Tuesday",     ko: "화요일에",    emoji: "📅" },
+  { en: "on Wednesday",   ko: "수요일에",    emoji: "📅" },
+  { en: "on Thursday",    ko: "목요일에",    emoji: "📅" },
+  { en: "on Friday",      ko: "금요일에",    emoji: "📅" },
+  { en: "on Saturday",    ko: "토요일에",    emoji: "🌞" },
+  { en: "on Sunday",      ko: "일요일에",    emoji: "🌞" },
+  { en: "on weekdays",    ko: "주중(평일)에", emoji: "🏫" },
+  { en: "on the weekend", ko: "주말에",      emoji: "🎉" },
+  { en: "this weekend",   ko: "이번 주말에", emoji: "🎉" },
+  { en: "after school",   ko: "방과 후에",   emoji: "🎒" },
+  { en: "this afternoon", ko: "오늘 오후에", emoji: "🌤️" },
+];
+
+/* 장소 표현 (See you at ___ . 빈칸에) */
+const PLACE_EXPRESSIONS = [
+  { en: "at school",                  ko: "학교에서",        emoji: "🏫" },
+  { en: "at the park",                ko: "공원에서",        emoji: "🌳" },
+  { en: "at the playground",          ko: "놀이터에서",      emoji: "🛝" },
+  { en: "at the gym",                 ko: "체육관에서",      emoji: "🏋️" },
+  { en: "at the library",             ko: "도서관에서",      emoji: "📖" },
+  { en: "at the swimming pool",       ko: "수영장에서",      emoji: "🏊" },
+  { en: "at the bus stop",            ko: "버스 정류장에서", emoji: "🚏" },
+  { en: "in front of the school gate",ko: "학교 정문 앞에서", emoji: "🚪" },
+  { en: "at my house",                ko: "우리 집에서",     emoji: "🏠" },
+  { en: "at the cafe",                ko: "카페에서",        emoji: "☕" },
+  { en: "at the bakery",              ko: "빵집에서",        emoji: "🥐" },
+  { en: "at the subway station",      ko: "지하철역에서",    emoji: "🚇" },
+];
+
 // 긍정적으로 대답하는 문장
 const POSITIVE_RESPONSES = [
   { en: "Sounds good.",     ko: "좋아.",       emoji: "😄" },
@@ -342,6 +374,13 @@ const WORD_MEANINGS = {
   "drawing": "그림 그리기", "singing": "노래하기", "flying": "날리기 (fly)",
   "kites": "연들", "making": "만들기 (make)", "snowmen": "눈사람들",
   "walking": "걷기, 산책", "taking": "찍기, 하기 (take)", "cafes": "카페들", "rooms": "방들",
+  // 요일·때
+  "monday": "월요일", "tuesday": "화요일", "wednesday": "수요일", "thursday": "목요일",
+  "friday": "금요일", "weekdays": "주중, 평일",
+  // 장소
+  "library": "도서관", "bus": "버스", "stop": "정류장 (bus stop: 버스 정류장)",
+  "front": "앞 (in front of: ~앞에)", "gate": "문, 정문", "my": "나의", "house": "집",
+  "bakery": "빵집", "subway": "지하철", "station": "역 (subway station: 지하철역)",
   "great": "멋진, 훌륭한", "idea": "생각, 아이디어", "course": "(of course: 당연하지)",
   "yes": "응, 그래", "i'd": "나는 ~하고 싶다 (I would)", "love": "무척 좋아하다, 정말 ~하고 싶다",
   "not": "~아니다, ~않다", "feeling": "느끼는, 기분", "well": "잘, 건강한 (feeling well: 컨디션이 좋은)",
